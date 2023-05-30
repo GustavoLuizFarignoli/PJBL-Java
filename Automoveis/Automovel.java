@@ -1,6 +1,11 @@
 package Automoveis;
 
-public abstract class Automovel {
+import Formulario.FormRefactored;
+
+import javax.swing.*;
+import java.awt.*;
+
+public abstract class Automovel extends Formulario.FormRefactored {
     private String marca;
     private String modelo;
     private int idade;
@@ -13,19 +18,6 @@ public abstract class Automovel {
     private int tamanhotanque;
     private double valor;
 
-    public Automovel(String marca, String modelo, int idade, int kilomt, String tipo, String combustivel, int qt_marcha, String cor, String chassi, int tamanhotanque, double valor) {
-        this.marca = marca;
-        this.modelo = modelo;
-        this.idade = idade;
-        this.kilomt = kilomt;
-        this.tipo = tipo;
-        this.combustivel = combustivel;
-        this.qt_marcha = qt_marcha;
-        this.cor = cor;
-        this.chassi = chassi;
-        this.tamanhotanque = tamanhotanque;
-        this.valor = valor;
-    }
     public abstract void depreciar();
 
     public void envelhecer(int anos){
