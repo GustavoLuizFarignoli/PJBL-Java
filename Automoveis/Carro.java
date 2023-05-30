@@ -1,4 +1,8 @@
-public class Carro extends Automovel{
+package Automoveis;
+
+import Automoveis.Automovel;
+
+public class Carro extends Automovel {
     private int n_portas;
     private int horsepower;
 
