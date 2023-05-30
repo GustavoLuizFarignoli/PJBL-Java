@@ -1,3 +1,7 @@
+package Pessoas;
+
+import Pessoas.Pessoa;
+
 public class Vendedor extends Pessoa {
     private int salario;
     private double comissao;

@@ -1,3 +1,5 @@
+package Pessoas;
+
 public abstract class Pessoa {
     private int id;
     private String nome;

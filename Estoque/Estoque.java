@@ -1,3 +1,7 @@
+package Estoque;
+
+import Automoveis.Automovel;
+
 import java.util.Map;
 
 public class Estoque {
