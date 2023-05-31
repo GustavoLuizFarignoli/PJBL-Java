@@ -11,6 +11,7 @@ public abstract class FormRefactored extends JFrame {
     protected JPanel pnlCarro;
     protected JPanel pnlMoto;
     protected JPanel pnlRodape;
+    protected JTabbedPane jtabs;
 
     protected JButton btnEnviar;
     protected JButton btnLimpar;
@@ -69,8 +70,22 @@ public abstract class FormRefactored extends JFrame {
         this.getContentPane().setLayout(new BorderLayout());
         this.setResizable(false);
 
-        this.getContentPane().add(getPnlMoto(), BorderLayout.CENTER);
-        this.getContentPane().add(getPnlRodape(), BorderLayout.PAGE_END);
+        JPanel forcarro = new JPanel();
+        forcarro.add(getPnlFormCarro(),BorderLayout.PAGE_START);
+        forcarro.add(getPnlRodape(),BorderLayout.PAGE_END);
+
+        JPanel formoto = new JPanel();
+        formoto.add(getPnlMoto(),BorderLayout.PAGE_START);
+        //formoto.add(getPnlRodape(),BorderLayout.PAGE_END);
+
+
+        jtabs = new JTabbedPane();
+        jtabs.add("Cadastrar Carro",forcarro);
+        jtabs.add("Cadastrar Moto",formoto);
+
+        this.getContentPane().add(jtabs,BorderLayout.CENTER);
+        //this.getContentPane().add(getPnlMoto(), BorderLayout.CENTER);
+        //this.getContentPane().add(getPnlRodape(), BorderLayout.PAGE_END);
         this.pack();
     }
     public JPanel getPnlRodape() {
