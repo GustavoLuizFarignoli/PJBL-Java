@@ -1,8 +1,5 @@
 package Automoveis;
 
-import Formulario.FormRefactored;
-
-import javax.swing.*;
 import java.awt.*;
 
 public abstract class Automovel extends Formulario.FormRefactored {
@@ -57,4 +54,5 @@ public abstract class Automovel extends Formulario.FormRefactored {
         // escrever alterações no estoque
         // escrever alterações nos registros
     }
+
 }
