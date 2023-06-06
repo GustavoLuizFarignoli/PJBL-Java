@@ -28,4 +28,10 @@ public class Vendedor extends Pessoa {
             this.comissao = valor * 0.13;
         }
     }
+
+    public void Pagamento(){
+        double pagamento = this.salario + this.comissao;
+        System.out.println("O Funcionário " + getNome() + "Deve receber um total de " + pagamento );
+        this.comissao = 0;
+    }
 }

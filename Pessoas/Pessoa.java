@@ -16,4 +16,8 @@ public abstract class Pessoa {
         this.telefone = telefone;
         this.cep = cep;
     }
+
+    public String getNome() {
+        return nome;
+    }
 }
