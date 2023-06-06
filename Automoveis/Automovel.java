@@ -18,9 +18,43 @@ public abstract class Automovel extends Formulario.FormRefactored {
     private int tamanhotanque;
     private double valor;
 
-    public abstract void depreciar();
+    public Automovel(String marca, String modelo, int idade, int kilomt, String tipo, String combustivel, int qt_marcha, String cor, String chassi, int tamanhotanque, double valor) throws HeadlessException {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.idade = idade;
+        this.kilomt = kilomt;
+        this.tipo = tipo;
+        this.combustivel = combustivel;
+        this.qt_marcha = qt_marcha;
+        this.cor = cor;
+        this.chassi = chassi;
+        this.tamanhotanque = tamanhotanque;
+        this.valor = valor;
+    }
+
+    public abstract void depreciar(int anos);
 
     public void envelhecer(int anos){
         this.idade += anos;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+
+    public void vender(Automovel automovel){
+        // retirar produto do estoque
+        // criar registro de vendas
+        // dar comissão ao vendedor
+        // escrever alterações no estoque
+        // escrever alterações nos registros
     }
 }
