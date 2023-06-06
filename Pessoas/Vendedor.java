@@ -19,13 +19,13 @@ public class Vendedor extends Pessoa {
     }
     public void setComissao(double comissao, double valor) {
         if (valor >= 100000){
-            this.comissao = 0.03;
+            this.comissao = valor * 0.03;
         }
         if (valor >= 50000){
-            this.comissao = 0.08;
+            this.comissao = valor * 0.08;
         }
         if (valor >= 25000){
-            this.comissao = 0.13;
+            this.comissao = valor * 0.13;
         }
     }
 }
