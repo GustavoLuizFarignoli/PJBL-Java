@@ -14,12 +14,23 @@ public class Caminhao extends Automovel{
     public void depreciar(int anos) {
         double Taxa = 0;
         envelhecer(anos);
-        if (getIdade() <= 8){
-            Taxa = 0.02;
-        } else if (getIdade() <= 12){
-            Taxa = 0.06;
-        } else {
-            Taxa = 0.13;
+        if (this.n_eixos<=4){
+            if (getIdade() <= 8){
+                Taxa = 0.02;
+            } else if (getIdade() <= 12){
+                Taxa = 0.06;
+            } else {
+                Taxa = 0.13;
+            }
+        }
+        else if (this.n_eixos<=9){
+            if (getIdade() <= 6){
+                Taxa = 0.04;
+            } else if (getIdade() <= 9){
+                Taxa = 0.09;
+            } else {
+                Taxa = 0.16;
+            }
         }
         setValor(getValor() * Taxa);
     }
