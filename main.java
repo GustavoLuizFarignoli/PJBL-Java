@@ -5,9 +5,13 @@ import javax.swing.*;
 
 public class main {
     public static void main(String[] args) {
-        /*SwingUtilities.invokeLater(() -> {
-            Carro carro1 = new Carro();
-            carro1.setVisible(true);
-        });*/
+        System.out.println("******PJBL-POO******\n" +
+                "Concessionária de Automóveis\n" +
+                "Feito por: Gabriel Molec\n" +
+                "           Gabriel Vink\n" +
+                "           Gustavo Luiz\n" +
+                "           João Gabriel Trigo\n" +
+                "           Vittorio Caprioli");
+
     }
 }
