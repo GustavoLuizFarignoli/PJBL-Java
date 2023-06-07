@@ -1,5 +1,4 @@
 package Registros;
-
 import Automoveis.Automovel;
 import Pessoas.Cliente;
 import Pessoas.Vendedor;

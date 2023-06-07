@@ -1,5 +1,4 @@
 package Automoveis;
-
 import java.awt.*;
 
 public abstract class Automovel extends Formulario.FormRefactored {

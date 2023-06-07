@@ -1,6 +1,6 @@
 package Automoveis;
-
 import java.awt.*;
+import java.util.Scanner;
 
 public class Caminhao extends Automovel{
     private int n_eixos;
@@ -33,6 +33,22 @@ public class Caminhao extends Automovel{
             }
         }
         setValor(getValor() * Taxa);
+    }
+    public static void menuCaminhao(int op){
+        Scanner teclado = new Scanner(System.in);
+        System.out.println("*******Menu Caminhão******\n" +
+                "1. Registrar venda\n" +
+                "2. Cadastrar caminhão\n");
+        System.out.print("Digite o comando desejado: ");
+        op = teclado.nextInt();
+        switch (op){
+            case 1:
+                // Metodo de registrar venda
+                break;
+            case 2:
+                // metodo de cadastrar caminhão
+                break;
+        }
     }
 }
 

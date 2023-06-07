@@ -1,6 +1,7 @@
 package Pessoas;
-
 import Pessoas.Pessoa;
+
+import java.util.Scanner;
 
 public class Vendedor extends Pessoa {
     private int salario;
@@ -33,5 +34,40 @@ public class Vendedor extends Pessoa {
         double pagamento = this.salario + this.comissao;
         System.out.println("O Funcionário " + getNome() + "Deve receber um total de " + pagamento );
         this.comissao = 0;
+    }
+    public static void menuVendedor(int op){
+        Scanner teclado = new Scanner(System.in);
+        System.out.println("******Menu Vendedor******\n" +
+                "1. Casdastrar vendedor\n" +
+                "2. Editar vendedor\n" +
+                "3. Excluir vendedor\n" +
+                "4. Atualizar vendedor\n" +
+                "5. Comissão\n" +
+                "6. Salário\n" +
+                "7. Finalizar\n");
+        System.out.print("Digite o comando desejado: ");
+        op = teclado.nextInt();
+        switch (op) {
+            case 1:
+                // Metodo de cadastrar
+                break;
+            case 2:
+                // Metodo editar
+                break;
+            case 3:
+                // Metodo excluir
+                break;
+            case 4:
+                // metodo atualizar
+                break;
+            case 5:
+                // metodo comissão
+                break;
+            case 6:
+                // metodo salario
+                break;
+            case 7:
+                break;
+        }
     }
 }
