@@ -28,7 +28,7 @@ public class Carro extends Automovel {
     }
     public static void menuCarro(int op){
         Scanner teclado = new Scanner(System.in);
-        System.out.println("******Menu Carro******" +
+        System.out.println("******Menu Carro******\n" +
                 "1. Registrar venda\n" +
                 "2. Registrar aluguel\n" +
                 "3. Cadastrar carro\n");

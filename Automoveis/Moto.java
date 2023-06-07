@@ -26,7 +26,7 @@ public class Moto extends Automovel {
     }
     public static void menuMoto(int op){
         Scanner teclado = new Scanner(System.in);
-        System.out.println("******Menu Moto******" +
+        System.out.println("******Menu Moto******\n" +
                 "1. Registrar venda\n" +
                 "2. Registrar aluguel\n" +
                 "3. Cadastrar moto\n" );
