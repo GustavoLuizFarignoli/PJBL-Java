@@ -18,16 +18,23 @@ public class main {
                 "           Vittorio Caprioli");
 
         Scanner teclado = new Scanner(System.in);
-        System.out.println("******MENU******\n" +
-                "1. Menu Carro \n" +
-                "2. Menu Moto\n" +
-                "3. Menu Caminhão\n" +
-                "4. Menu Cliente\n" +
-                "5. Menu Vendedor\n" +
-                "6. Menu Estoque\n" +
-                "7. Finalizar\n");
-        System.out.print("Digite o comando desejado: ");
-        int op = teclado.nextInt();
+        int op = 0;
+        while (op != 7) {
+            System.out.println("******MENU******\n" +
+                    "1. Menu Carro \n" +
+                    "2. Menu Moto\n" +
+                    "3. Menu Caminhão\n" +
+                    "4. Menu Cliente\n" +
+                    "5. Menu Vendedor\n" +
+                    "6. Menu Estoque\n" +
+                    "7. Finalizar\n");
+            System.out.print("Digite o comando desejado: ");
+            op = teclado.nextInt();
+            while (op < 1 || op > 7) {
+                System.out.println("Opção de menu inválida\n");
+                System.out.print("Digite o comando desejado: ");
+                op = teclado.nextInt();
+            }
 
             switch (op) {
                 case 1:
@@ -49,17 +56,9 @@ public class main {
                     // opções estoque
                     break;
                 case 7:
+                    System.out.println("Finalizando aplicação...");
                     break;
-                default:
-                    System.out.println("Opção de menu inválida\n" +
-                            "1. Menu Carro \n" +
-                            "2. Menu Moto\n" +
-                            "3. Menu Caminhão\n" +
-                            "4. Menu Cliente\n" +
-                            "5. Menu Vendedor\n" +
-                            "6. Menu Estoque\n" +
-                            "7. Finalizar\n");
-                    System.out.print("Digite o comando desejado: ");
+            }
         }
     }
 }
