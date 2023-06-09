@@ -1,6 +1,7 @@
 import Automoveis.Carro;
 import Formulario.FormRefactored;
 import javax.swing.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import static Automoveis.Caminhao.menuCaminhao;
 import static Automoveis.Carro.menuCarro;
@@ -28,15 +29,19 @@ public class main {
                     "5. Menu Vendedor\n" +
                     "6. Menu Estoque\n" +
                     "7. Finalizar\n");
-            System.out.print("Digite o comando desejado: ");
-            op = teclado.nextInt();
-            while (op < 1 || op > 7) {
-                System.out.println("Opção de menu inválida\n");
-                System.out.print("Digite o comando desejado: ");
-                op = teclado.nextInt();
+            boolean valido = false;
+            while (!valido) {
+                try {
+                    System.out.print("Digite o comando desejado: ");
+                    op = Integer.parseInt(teclado.nextLine());
+                    valido = true;
+                } catch (NumberFormatException e) {
+                    System.out.println("Por favor responda apenas o número da opção desejada");
+                }
             }
 
-            switch (op) {
+
+                switch (op) {
                 case 1:
                     menuCarro(op);
                     break;

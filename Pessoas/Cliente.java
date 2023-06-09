@@ -27,11 +27,11 @@ public class Cliente extends Pessoa implements Serializable {
 
     @Override
     public String toString() {
-        return "Cliente{Nome: " + getNome()+
-                " CPF: " + getCpf() +
-                " CEP: " + getCep() +
-                " Idade: " + getIdade() +
-                " Telefone: +55 (41) " + getTelefone();
+        return "Nome: " + getNome()+
+                "\nCPF: " + getCpf() +
+                "\nCEP: " + getCep() +
+                "\nIdade: " + getIdade() +
+                "\nTelefone: +55 (41) " + getTelefone();
     }
 
     public static void menuCliente(int op){
@@ -41,28 +41,33 @@ public class Cliente extends Pessoa implements Serializable {
                 "2. Editar cliente\n" +
                 "3. Excluir cliente\n" +
                 "4. Visualizar cliente\n" +
-                "5. Finalizar\n");
+                "5. Ver todos os clientes\n" +
+                "6. Finalizar\n");
         System.out.print("Digite o comando desejado: ");
         op = teclado.nextInt();
         switch (op) {
             case 1:
                 // Metodo de cadastrar
-                teclado.nextLine(); //Preciso dessa linha pois o nextint não "consome" o /n
+                teclado.nextLine(); //Preciso dessa linha, pois o nextint não "consome" o /n
                 boolean valido = false;
 
-                System.out.println("Digite o Nome deste Cliente: ");
-                String nome = teclado.nextLine();
+                String nome = "";
+                while (nome.length() == 0){
+                    System.out.println("Digite o Nome deste Cliente: ");
+                    nome = teclado.nextLine();
+                }
                 nome = nome.substring(0, 1).toUpperCase() + nome.substring(1).toLowerCase();
 
                 String cpf = "";
                 while (!valido) {
                     try {
-                        System.out.println("Digite o CPF deste Cliente (apenas os números): ");
-                        cpf = teclado.nextLine(); // Não faz Validação
-                        if (cpf.length() != 11 ) { // Transformar em Exception ?
-                            System.out.println("Número de CPF Inválido, Ele deve conter 11 digitos");
-                        } else {
+                        System.out.println("Digite o CPF deste Cliente: ");
+                        cpf = teclado.nextLine();
+                        if (validarCPF(cpf)) { // Transformar em Exception ?
                             valido = true;
+                            cpf = cpfformat(cpf);
+                        } else {
+                            System.out.println("Número de CPF Inválido");
                         }
                     } catch (InputMismatchException e) {
                         System.out.println("Por favor responda apenas com números inteiros");
@@ -89,15 +94,16 @@ public class Cliente extends Pessoa implements Serializable {
 
 
                 valido = false;
-                int numtelefone = 0;
+                String numtelefone = "";
                 while (!valido) {
                     try {
                         System.out.println("Digite o Telefone deste Cliente sem DDD: ");
-                        numtelefone = Integer.parseInt(teclado.nextLine());
-                        if (Integer.toString(numtelefone).length() < 8 || Integer.toString(numtelefone).length() > 9) { // Transformar em Exception ?
+                        numtelefone = teclado.nextLine();
+                        if (numtelefone.length() < 8 || numtelefone.length() > 9) { // Transformar em Exception ?
                             System.out.println("Número de Telefone Inválido, Ele deve conter entre 8 a 9 digitos");
                         } else {
                             valido = true;
+                            numtelefone = formatcell(numtelefone);
                         }
                     } catch (InputMismatchException e) {
                         System.out.println("Por favor responda apenas com números");
@@ -105,19 +111,18 @@ public class Cliente extends Pessoa implements Serializable {
                         System.out.println("Erro Desconhecido, tente novamente");
                     }
                 }
-                String telefone = "55 " + numtelefone;
 
                 valido = false;
-                int cep = 0;
+                String cep = "";
                 while (!valido) {
                     try {
                         System.out.println("Digite o CEP deste Cliente (apenas os números): ");
-                        cep = Integer.parseInt(teclado.nextLine());
-                        if (Integer.toString(cep).length() != 8 ) { // Transformar em Exception ?
-                            System.out.println("Número de CEP Inválido, Ele deve conter 8 digitos");
-                        } else {
+                        cep = teclado.nextLine();
+                        if (validarCEP(cep)) {
                             valido = true;
-
+                            cep = formatcep(cep);
+                        } else {
+                            System.out.println("Número de CEP Inválido");
                         }
                     } catch (InputMismatchException e) {
                         System.out.println("Por favor responda apenas com números");
@@ -129,12 +134,11 @@ public class Cliente extends Pessoa implements Serializable {
                 Clientes cadastro;
                 try {
                     cadastro = (Clientes) Serializador.ler("Clientes");
-                    System.out.println(cadastro);
                 } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
 
-                Cliente c = new Cliente(nome,cpf, idade,telefone,Integer.toString(cep));
+                Cliente c = new Cliente(nome,cpf, idade,numtelefone,cep);
 
                 cadastro.addCliente(c);
                 try {
@@ -148,19 +152,80 @@ public class Cliente extends Pessoa implements Serializable {
                 break;
             case 3:
                 // Metodo excluir
+                Clientes excluir;
+                try {
+                    excluir = (Clientes) Serializador.ler("Clientes");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+                teclado.nextLine();
+                System.out.println("Qual o CPF do Cliente que deseja excluir ?");
+                cpf = teclado.nextLine();
+                cpf = cpfformat(cpf);
+
+                Cliente ex = excluir.findcliente(cpf);
+                if (ex == null){
+                    System.out.println("Não foi possivel encontrar nenhum cliente com este cpf");
+                } else {
+                    excluir.removeCliente(ex);
+                    try {
+                        Serializador.gravar("Clientes",excluir);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    System.out.println("Cliente Excluido com sucesso");
+                }
+
                 break;
             case 4:
                 // metodo Visualizar
                 Clientes visualizar;
                 try {
                     visualizar = (Clientes) Serializador.ler("Clientes");
-                    System.out.println(visualizar.getlista());
                 } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
+
+                teclado.nextLine();
+                System.out.println("Qual o CPF do Cliente que deseja visualizar ?");
+                cpf = teclado.nextLine();
+                cpf = cpfformat(cpf);
+
+                Cliente v = visualizar.findcliente(cpf);
+                if (v == null){
+                    System.out.println("Não foi possivel encontrar nenhum cliente com este cpf");
+                } else {
+                    System.out.println(v);
+                }
                 break;
             case 5:
+                Clientes vertodos;
+                try {
+                    vertodos = (Clientes) Serializador.ler("Clientes");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+                vertodos.viewclientes();
+
                 break;
+            case 6:
+                break;
+            case 7:
+                //Opção de Debug, deve ser removida posteriormente
+
+                Clientes cadastro1 = new Clientes();
+                Cliente c1 = new Cliente("Guga","089.927.489-73",18,"99119-2406","80110-030");
+
+                cadastro1.addCliente(c1);
+                try {
+                    Serializador.gravar("Clientes",cadastro1);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+
         }
     }
 }
