@@ -1,10 +1,11 @@
 package Estoque;
 
 import Automoveis.Automovel;
+import Pessoas.Cliente;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Serializador {
     public static void gravar(String nome_arquivo, Object objeto) throws IOException {
@@ -29,6 +30,15 @@ public class Serializador {
         restaurador.close();
         arquivo.close();
         return hashMap;
+    }
+
+    public static ArrayList<Cliente> lerarray (String nome_arquivo) throws IOException, ClassNotFoundException{
+        FileInputStream fileIn = new FileInputStream(nome_arquivo);
+        ObjectInputStream in = new ObjectInputStream(fileIn);
+        ArrayList<Cliente> list = (ArrayList<Cliente>) in.readObject();
+        in.close();
+        fileIn.close();
+        return list;
     }
 }
 
