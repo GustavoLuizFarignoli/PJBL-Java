@@ -116,7 +116,7 @@ public class Cliente extends Pessoa implements Serializable {
                 String cep = "";
                 while (!valido) {
                     try {
-                        System.out.println("Digite o CEP deste Cliente (apenas os números): ");
+                        System.out.println("Digite o CEP deste Cliente: ");
                         cep = teclado.nextLine();
                         if (validarCEP(cep)) {
                             valido = true;
@@ -149,6 +149,98 @@ public class Cliente extends Pessoa implements Serializable {
                 break;
             case 2:
                 // Metodo editar
+                Clientes editar;
+                try {
+                    editar = (Clientes) Serializador.ler("Clientes");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+                teclado.nextLine();
+                System.out.println("Qual o CPF do Cliente que deseja visualizar ?");
+                cpf = teclado.nextLine();
+                cpf = cpfformat(cpf);
+
+                Cliente edit = editar.findcliente(cpf);
+                if (edit == null){
+                    System.out.println("Não foi possivel encontrar nenhum cliente com este cpf");
+                } else {
+                    //Código editar
+                    System.out.println(edit);
+                    System.out.println("===========================");
+
+                    System.out.println("Digite o novo nome (ou deixe em branco para manter o valor atual):");
+                    nome = teclado.nextLine();
+                    if(!nome.isEmpty()){
+                        edit.setNome(nome);
+                    }
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite a nova idade (ou digite 0 para manter o valor atual):");
+                            idade = Integer.parseInt(teclado.nextLine());
+                            valido = true;
+                            if(idade != 0){
+                                edit.setIdade(idade);
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Por favor responda apenas com números inteiros");
+                        } catch (Exception e) {
+                            System.out.println("Erro Desconhecido, tente novamente");
+                        }
+                    }
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite o novo Telefone deste Cliente sem DDD: ");
+                            numtelefone = teclado.nextLine();
+                            if (numtelefone.length() < 8 || numtelefone.length() > 9) { // Transformar em Exception ?
+                                if (numtelefone.isEmpty()){
+                                    valido = true;
+                                } else {
+                                    System.out.println("Número de Telefone Inválido, Ele deve conter entre 8 a 9 digitos");
+                                }
+                            } else {
+                                valido = true;
+                                numtelefone = formatcell(numtelefone);
+                                edit.setTelefone(numtelefone);
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Por favor responda apenas com números");
+                        } catch (Exception e) {
+                            System.out.println("Erro Desconhecido, tente novamente");
+                        }
+                    }
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite o novo CEP deste Cliente (ou deixe em branco para manter o valor atual):  ");
+                            cep = teclado.nextLine();
+                            if (validarCEP(cep)) {
+                                valido = true;
+                                edit.setCep(formatcep(cep));
+                            } else if (cep.isEmpty()) {
+                                valido = true;
+                            } else {
+                                System.out.println("Número de CEP Inválido");
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Por favor responda apenas com números");
+                        } catch (Exception e) {
+                            System.out.println("Erro Desconhecido, tente novamente");
+                        }
+                    }
+
+                    try {
+                        Serializador.gravar("Clientes",editar);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
                 break;
             case 3:
                 // Metodo excluir
