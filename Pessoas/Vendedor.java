@@ -1,8 +1,6 @@
 package Pessoas;
-import Estoque.Clientes;
 import Estoque.Funcionario;
 import Estoque.Serializador;
-import Pessoas.Pessoa;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -24,16 +22,29 @@ public class Vendedor extends Pessoa implements Serializable {
     public double getComissao() {
         return comissao;
     }
-    public void setComissao(double comissao, double valor) {
+
+    public int getSalario() {
+        return salario;
+    }
+
+    public int getQtvendas() {
+        return qtvendas;
+    }
+    public void setComissao(double valor) {
         if (valor >= 100000){
-            this.comissao = valor * 0.03;
+            this.comissao = (valor * 0.03);
+        }else if (valor >= 50000){
+            this.comissao = (valor * 0.08);
+        }else if (valor >= 25000){
+            this.comissao = (valor * 0.13);
         }
-        if (valor >= 50000){
-            this.comissao = valor * 0.08;
-        }
-        if (valor >= 25000){
-            this.comissao = valor * 0.13;
-        }
+    }
+    public void setSalario(int salario) {
+        this.salario = salario;
+    }
+
+    public void setQtvendas(int qtvendas) {
+        this.qtvendas = qtvendas;
     }
 
     public void Pagamento(){
@@ -48,10 +59,10 @@ public class Vendedor extends Pessoa implements Serializable {
                 "\nCPF: " + getCpf() +
                 "\nCEP: " + getCep() +
                 "\nIdade: " + getIdade() +
-                "\nTelefone: +55 (41) " + getTelefone();
-                //Salário
-                //Comissão
-                //Quant. vendas
+                "\nTelefone: +55 (41) " + getTelefone() +
+                "\nSalário: " + getSalario() +
+                "\nComissão: " + getComissao() +
+                "\nQuantidade de vendas: " + getQtvendas();
     }
     public static void menuVendedor(int op){
         Scanner teclado = new Scanner(System.in);
@@ -104,7 +115,11 @@ public class Vendedor extends Pessoa implements Serializable {
                     try {
                         System.out.println("Digite a idade deste Vendedor: ");
                         idade = Integer.parseInt(teclado.nextLine());
-                        valido = true;
+                        if (idade < 18){
+                            valido = true;
+                        }else {
+                            System.out.println("Os funcionários precisam ser maior de idade");
+                        }
                     } catch (InputMismatchException e) {
                         System.out.println("Por favor responda apenas com números inteiros");
                     } catch (Exception e) {
@@ -172,7 +187,7 @@ public class Vendedor extends Pessoa implements Serializable {
                     throw new RuntimeException(e);
                 }
 
-                Vendedor v = new Vendedor(nome,cpf, idade,numtelefone,cep,0,0,0);
+                Vendedor v = new Vendedor(nome,cpf, idade,numtelefone,cep,salario,0,0);
 
                 cadastro.addFuncionario(v);
                 try {
@@ -183,6 +198,114 @@ public class Vendedor extends Pessoa implements Serializable {
                 break;
             case 2:
                 // Metodo editar
+                Funcionario editar;
+                try {
+                    editar = (Funcionario) Serializador.ler("Funcionarios");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+                teclado.nextLine();
+                System.out.println("Qual o CPF do Cliente que deseja editar ?");
+                cpf = teclado.nextLine();
+                cpf = cpfformat(cpf);
+
+                Vendedor edit = editar.findcliente(cpf);
+                if (edit == null){
+                    System.out.println("Não foi possivel encontrar nenhum vendedor com este cpf");
+                } else {
+                    //Código editar
+                    System.out.println(edit);
+                    System.out.println("===========================");
+
+                    System.out.println("Digite o novo nome (ou deixe em branco para manter o valor atual):");
+                    nome = teclado.nextLine();
+                    if(!nome.isEmpty()){
+                        edit.setNome(nome);
+                    }
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite a nova idade (ou digite 0 para manter o valor atual):");
+                            idade = Integer.parseInt(teclado.nextLine());
+                            if(idade >= 18){
+                                edit.setIdade(idade);
+                                valido = true;
+                            } else {
+                                System.out.println("Idade inválida");
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Por favor responda apenas com números inteiros");
+                        } catch (Exception e) {
+                            System.out.println("Erro Desconhecido, tente novamente");
+                        }
+                    }
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite o novo Telefone deste Cliente sem DDD: ");
+                            numtelefone = teclado.nextLine();
+                            if (numtelefone.length() < 8 || numtelefone.length() > 9) { // Transformar em Exception ?
+                                if (numtelefone.isEmpty()){
+                                    valido = true;
+                                } else {
+                                    System.out.println("Número de Telefone Inválido, Ele deve conter entre 8 a 9 digitos");
+                                }
+                            } else {
+                                valido = true;
+                                numtelefone = formatcell(numtelefone);
+                                edit.setTelefone(numtelefone);
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Por favor responda apenas com números");
+                        } catch (Exception e) {
+                            System.out.println("Erro Desconhecido, tente novamente");
+                        }
+                    }
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite o novo CEP deste Cliente (ou deixe em branco para manter o valor atual):  ");
+                            cep = teclado.nextLine();
+                            if (validarCEP(cep)) {
+                                valido = true;
+                                edit.setCep(formatcep(cep));
+                            } else if (cep.isEmpty()) {
+                                valido = true;
+                            } else {
+                                System.out.println("Número de CEP Inválido");
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Por favor responda apenas com números");
+                        } catch (Exception e) {
+                            System.out.println("Erro Desconhecido, tente novamente");
+                        }
+                    }
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite a novo salário (ou digite 0 para manter o valor atual):");
+                            salario = Integer.parseInt(teclado.nextLine());
+                            valido = true;
+                            if(salario != 0){
+                                edit.setSalario(salario);
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Por favor responda apenas com números inteiros");
+                        } catch (Exception e) {
+                            System.out.println("Erro Desconhecido, tente novamente");
+                        }
+                    }
+
+                    try {
+                        Serializador.gravar("Funcionarios",editar);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 break;
             case 3:
                 // Metodo excluir
@@ -245,6 +368,44 @@ public class Vendedor extends Pessoa implements Serializable {
                 break;
             case 6:
                 // metodo comissão
+                Funcionario editarcomissao;
+                try {
+                    editarcomissao = (Funcionario) Serializador.ler("Funcionarios");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+                teclado.nextLine();
+                System.out.println("Qual o CPF do Cliente que deseja editar ?");
+                cpf = teclado.nextLine();
+                cpf = cpfformat(cpf);
+
+                Vendedor editcomissao = editarcomissao.findcliente(cpf);
+                if (editcomissao == null){
+                    System.out.println("Não foi possivel encontrar nenhum vendedor com este cpf");
+                } else {
+                    System.out.println(editcomissao);
+                    System.out.println("===========================");
+
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite o valor da comissão: ");
+                            double comissao = Double.parseDouble(teclado.nextLine());
+                            editcomissao.setComissao(comissao);
+                            valido = true;
+                        } catch (Exception e) {
+                            System.out.println("Ocorreu um erro, tente novamente");
+                        }
+                    }
+
+                    try {
+                        Serializador.gravar("Funcionarios",editarcomissao);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 break;
             case 7:
                 // metodo salario

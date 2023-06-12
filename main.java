@@ -1,7 +1,3 @@
-import Automoveis.Carro;
-import Formulario.FormRefactored;
-import javax.swing.*;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 import static Automoveis.Caminhao.menuCaminhao;
 import static Automoveis.Carro.menuCarro;

@@ -157,7 +157,7 @@ public class Cliente extends Pessoa implements Serializable {
                 }
 
                 teclado.nextLine();
-                System.out.println("Qual o CPF do Cliente que deseja visualizar ?");
+                System.out.println("Qual o CPF do Cliente que deseja editar ?");
                 cpf = teclado.nextLine();
                 cpf = cpfformat(cpf);
 
