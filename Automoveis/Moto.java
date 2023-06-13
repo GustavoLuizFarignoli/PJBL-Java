@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Moto extends Automovel implements Serializable {
     private int cilindradas;
 
-    public Moto(String marca, String modelo, int idade, double kilomt, String tipo, String combustivel, int qt_marcha, String cor, String chassi, int tamanhotanque, double valor, int  cilindradas) throws HeadlessException {
+    public Moto(String marca, String modelo, int idade, long kilomt, String tipo, String combustivel, int qt_marcha, String cor, String chassi, int tamanhotanque, double valor, int  cilindradas) throws HeadlessException {
         super(marca, modelo, idade, kilomt, tipo, combustivel, qt_marcha, cor, chassi, tamanhotanque, valor);
         this.cilindradas = cilindradas;
     }
@@ -82,11 +82,11 @@ public class Moto extends Automovel implements Serializable {
                 }
 
                 valido = false;
-                double kilomt = 0;
+                long kilomt = 0;
                 while (!valido) {
                     try {
                         System.out.println("Digite a quilometragem desta moto: ");
-                        kilomt = Double.parseDouble(teclado.nextLine());
+                        kilomt = Long.parseLong(teclado.nextLine());
                         valido = true;
                     } catch (Exception e) {
                         System.out.println("Erro desconhecido, tente novamente");
