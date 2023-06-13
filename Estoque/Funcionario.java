@@ -1,6 +1,5 @@
 package Estoque;
 
-import Pessoas.Cliente;
 import Pessoas.Vendedor;
 
 import java.io.Serializable;
@@ -35,6 +34,14 @@ public class Funcionario implements Serializable {
         for (Vendedor v : this.funcionarios){
             System.out.println("===========================");
             System.out.println(v);
+        }
+        System.out.println("===========================");
+    }
+
+    public void viewpagamentos(){
+        for (Vendedor v : this.funcionarios){
+            System.out.println("===========================");
+            v.Pagamento();
         }
         System.out.println("===========================");
     }

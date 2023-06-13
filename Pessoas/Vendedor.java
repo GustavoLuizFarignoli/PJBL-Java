@@ -32,13 +32,14 @@ public class Vendedor extends Pessoa implements Serializable {
     }
     public void setComissao(double valor) {
         if (valor >= 100000){
-            this.comissao = (valor * 0.03);
+            this.comissao += (valor * 0.03);
         }else if (valor >= 50000){
-            this.comissao = (valor * 0.08);
-        }else if (valor >= 25000){
-            this.comissao = (valor * 0.13);
+            this.comissao += (valor * 0.08);
+        }else{
+            this.comissao += (valor * 0.13);
         }
     }
+
     public void setSalario(int salario) {
         this.salario = salario;
     }
@@ -49,7 +50,7 @@ public class Vendedor extends Pessoa implements Serializable {
 
     public void Pagamento(){
         double pagamento = this.salario + this.comissao;
-        System.out.println("O Funcionário " + getNome() + "Deve receber um total de " + pagamento );
+        System.out.println("O Funcionário " + getNome() + ", Deve receber um total de " + pagamento );
         this.comissao = 0;
     }
 
@@ -69,11 +70,11 @@ public class Vendedor extends Pessoa implements Serializable {
         System.out.println("******Menu Vendedor******\n" +
                 "1. Casdastrar vendedor\n" +
                 "2. Editar vendedor\n" +
-                "3. Excluir vendedor\n" +
+                "3. Demitir vendedor\n" +
                 "4. Visualizar vendedor\n" +
                 "5. Ver todos os vendedores\n" +
                 "6. Comissão\n" +
-                "7. Salário\n" +
+                "7. Folha de Pagamento\n" +
                 "8. Finalizar\n");
         System.out.print("Digite o comando desejado: ");
         op = teclado.nextInt();
@@ -229,7 +230,9 @@ public class Vendedor extends Pessoa implements Serializable {
                         try {
                             System.out.println("Digite a nova idade (ou digite 0 para manter o valor atual):");
                             idade = Integer.parseInt(teclado.nextLine());
-                            if(idade >= 18){
+                            if(idade == 0){
+                              valido = true;
+                            }else if(idade >= 18){
                                 edit.setIdade(idade);
                                 valido = true;
                             } else {
@@ -245,7 +248,7 @@ public class Vendedor extends Pessoa implements Serializable {
                     valido = false;
                     while (!valido) {
                         try {
-                            System.out.println("Digite o novo Telefone deste Cliente sem DDD: ");
+                            System.out.println("Digite o novo Telefone deste Cliente sem DDD (ou deixe em branco para manter o valor atual): ");
                             numtelefone = teclado.nextLine();
                             if (numtelefone.length() < 8 || numtelefone.length() > 9) { // Transformar em Exception ?
                                 if (numtelefone.isEmpty()){
@@ -409,6 +412,20 @@ public class Vendedor extends Pessoa implements Serializable {
                 break;
             case 7:
                 // metodo salario
+                Funcionario verpagamentos;
+                try {
+                    verpagamentos = (Funcionario) Serializador.ler("Funcionarios");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+                verpagamentos.viewpagamentos();
+
+                try {
+                    Serializador.gravar("Funcionarios",verpagamentos);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 break;
             case 8:
                 break;
