@@ -1,6 +1,7 @@
 package Estoque;
 
 import Automoveis.Automovel;
+import Automoveis.Moto;
 import Pessoas.Cliente;
 
 import java.io.*;
