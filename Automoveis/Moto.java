@@ -218,8 +218,6 @@ public class Moto extends Automovel implements Serializable {
                                 System.out.println("Digite a cor desta moto: ");
                                 cor = teclado.nextLine();
                                 valido = true;
-                            } catch (InputMismatchException e) {
-                                System.out.println("Por favor responda apenas com números inteiros");
                             } catch (Exception e) {
                                 System.out.println("Erro Desconhecido, tente novamente");
                             }
@@ -251,8 +249,6 @@ public class Moto extends Automovel implements Serializable {
                                         } else {
                                             System.out.println("Digite um serial válido, 17 letras no total.");
                                         }
-                                    } catch (InputMismatchException e) {
-                                        System.out.println("Por favor responda apenas com números inteiros");
                                     } catch (Exception e) {
                                         System.out.println("Erro Desconhecido, tente novamente");
                                     }
