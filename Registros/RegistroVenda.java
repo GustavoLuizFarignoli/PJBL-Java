@@ -11,11 +11,20 @@ public class RegistroVenda{
     private double valorVenda;
 
     private Cliente cliente;
-    public static void registrarVenda(Automovel automovel, Vendedor vendedor, Cliente cliente, Date dataVenda, double valorVenda) {
+    public RegistroVenda(Automovel automovel, Vendedor vendedor, Cliente cliente, Date dataVenda, double valorVenda) {
         automovel = automovel;
         vendedor = vendedor;
         cliente = cliente;
         dataVenda = dataVenda;
         valorVenda = valorVenda;
+    }
+
+    @Override
+    public String toString() {
+        return "Vendedor:" + vendedor +
+                "\nData da Venda: " + dataVenda +
+                "\nAutomovel: " + automovel +
+                "\nValor: " + valorVenda +
+                "\n Comprador: " + cliente;
     }
 }
