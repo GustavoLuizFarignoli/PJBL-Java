@@ -97,9 +97,9 @@ public class Moto extends Automovel implements Serializable {
                 String combustivel = "";
                 while (!valido) {
                     try {
-                        System.out.println("Digite o combustível da moto: ");
+                        System.out.println("Digite o tipo (Elétrico; Combustão ou Híbrido) de sua moto:  ");
                         combustivel = teclado.nextLine();
-                        if (combustivel.toLowerCase().equals("elétrico") || combustivel.toLowerCase() == "combustão" || combustivel.toLowerCase() == "híbrido") {
+                        if (combustivel.toLowerCase().equals("elétrico") || combustivel.toLowerCase().equals("combustão") || combustivel.toLowerCase().equals("híbrido")) {
                             combustivel = combustivel.substring(0, 1).toUpperCase() + combustivel.substring(1).toLowerCase();
                             valido = true;
                         } else {
@@ -110,6 +110,7 @@ public class Moto extends Automovel implements Serializable {
                     }
                 }
 
+                valido = false;
                 String tipo = "";
                 while (!valido) {
                     try {
