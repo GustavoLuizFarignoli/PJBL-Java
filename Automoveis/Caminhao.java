@@ -1,19 +1,18 @@
 package Automoveis;
 import Estoque.Caminhoes;
-import Estoque.Carros;
+import Estoque.Clientes;
 import Estoque.Serializador;
-import Registros.RegistroAluguel;
-import Registros.RegistroVenda;
+import Pessoas.Cliente;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Caminhao extends Automovel{
+public class Caminhao extends Automovel {
     private int n_eixos;
 
-    public Caminhao(String marca, String modelo, int idade, int kilomt, String tipo, String combustivel, int qt_marcha, String cor, String chassi, int tamanhotanque, double valor, int n_eixos) throws HeadlessException {
+    public Caminhao(String marca, String modelo, int idade, double kilomt, String tipo, String combustivel, int qt_marcha, String cor, String chassi, int tamanhotanque, double valor, int n_eixos) throws HeadlessException {
         super(marca, modelo, idade, kilomt, tipo, combustivel, qt_marcha, cor, chassi, tamanhotanque, valor);
         this.n_eixos = n_eixos;
     }
@@ -22,19 +21,18 @@ public class Caminhao extends Automovel{
     public void depreciar(int anos) {
         double Taxa = 0;
         envelhecer(anos);
-        if (this.n_eixos<=4){
-            if (getIdade() <= 8){
+        if (this.n_eixos <= 4) {
+            if (getIdade() <= 8) {
                 Taxa = 0.02;
-            } else if (getIdade() <= 12){
+            } else if (getIdade() <= 12) {
                 Taxa = 0.06;
             } else {
                 Taxa = 0.13;
             }
-        }
-        else if (this.n_eixos<=9){
-            if (getIdade() <= 6){
+        } else if (this.n_eixos <= 9) {
+            if (getIdade() <= 6) {
                 Taxa = 0.04;
-            } else if (getIdade() <= 9){
+            } else if (getIdade() <= 9) {
                 Taxa = 0.09;
             } else {
                 Taxa = 0.16;
@@ -42,14 +40,34 @@ public class Caminhao extends Automovel{
         }
         setValor(getValor() * Taxa);
     }
+
+    public String toString() {
+        return
+                "Marca: " + getMarca() +
+                "\nModelo: " + getModelo() +
+                "\nIdade: " + getIdade() +
+                "\nQuilometragem: " + getKilomt() +
+                "\nTipo: " + getTipo() +
+                "\nCombustivel: " + getCombustivel() +
+                "\nNúmero de marcha: " + getQt_marcha() +
+                "\nCor: " + getCor() +
+                "\nChassi: " + getChassi() +
+                "\nTamanho do Tanque: " + getTamanhotanque() + "L" +
+                "\nValor: " + getValor()+
+                "\nNúmero de eixos: " + this.n_eixos;
+    }
+
+
     public static void menuCaminhao(int op) {
         Scanner teclado = new Scanner(System.in);
         System.out.println("******Menu Caminhão******\n" +
-                "1. Registrar venda\n" +
-                "2. Registrar aluguel\n" +
-                "3. Cadastrar caminhão\n" +
-                "4. Calcular a desvalorização\n" +
-                "5. Finalizar");
+                "1. Cadastrar caminhão\n" +
+                "2. Editar caminhão\n" +
+                "3. Procurar Caminhão\n" +
+                "4. Visualizar Caminhões\n" +
+                "5. Excluir Caminhão\n" +
+                "6. Calcular a desvalorização\n" +
+                "7. Finalizar");
         System.out.print("Digite o comando desejado: ");
         op = teclado.nextInt();
         boolean valido;
@@ -61,12 +79,6 @@ public class Caminhao extends Automovel{
         String marca = null;
         switch (op) {
             case 1:
-                // Metodo de registrar venda
-                break;
-            case 2:
-                // metodo de registrar aluguel
-                break;
-            case 3:
                 // metodo de cadastrar caminhão
                 teclado.nextLine();
                 valido = false;
@@ -97,7 +109,7 @@ public class Caminhao extends Automovel{
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
                     }
-                    }
+                }
 
                 valido = false;
                 kilomt = 0;
@@ -117,7 +129,7 @@ public class Caminhao extends Automovel{
                     try {
                         System.out.println("Qual dos seguintes tipo: Elétrico; Combustão ou Híbrido, seu caminhão pertence: ");
                         combustivel = teclado.nextLine();
-                        if (combustivel.equalsIgnoreCase("elétrico") || combustivel.equalsIgnoreCase("combustão")  || combustivel.equalsIgnoreCase("híbrido")) {
+                        if (combustivel.equalsIgnoreCase("elétrico") || combustivel.equalsIgnoreCase("combustão") || combustivel.equalsIgnoreCase("híbrido")) {
                             combustivel = combustivel.substring(0, 1).toUpperCase() + combustivel.substring(1).toLowerCase();
                             valido = true;
                         } else {
@@ -128,6 +140,7 @@ public class Caminhao extends Automovel{
                     }
                 }
 
+                valido = false;
                 tipo = "";
                 while (!valido) {
                     try {
@@ -178,13 +191,9 @@ public class Caminhao extends Automovel{
                             default:
                                 System.out.println("Digite um valor válido");
                         }
-                        } catch (Exception e) {
-                            System.out.println("Erro desconhecido, tente novamente");
-                        }
+                    } catch (Exception e) {
+                        System.out.println("Erro desconhecido, tente novamente");
                     }
-
-                    valido = false;
-                    break;
                 }
 
                 valido = false;
@@ -275,21 +284,122 @@ public class Caminhao extends Automovel{
                     }
                 }
 
-        Caminhoes cadastro;
-        try {
-            cadastro = (Caminhoes) Serializador.ler("Caminhoes");
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+                Caminhoes cadastro;
+                try {
+                    cadastro = (Caminhoes) Serializador.ler("Caminhoes");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
 
+                Caminhao c = new Caminhao(marca, modelo, idade, kilomt, tipo, combustivel, qt_marcha, cor, chassi.toUpperCase(), tamanhotanque, valor, n_eixos);
 
-        Caminhao c = new Caminhao(marca, modelo, idade, (int) kilomt, tipo, combustivel, qt_marcha, cor, chassi, tamanhotanque, valor, n_eixos);
+                cadastro.addCaminhao(c);
+                try {
+                    Serializador.gravar("Caminhoes", cadastro);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            case 2:
+                //método editar caminhão
+                break;
+            case 3:
+                //metódo visualizar caminhão especifico
+                Caminhoes visualizar;
+                try {
+                    visualizar = (Caminhoes) Serializador.ler("Caminhoes");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
 
-        cadastro.addCaminhao(c);
-        try {
-            Serializador.gravar("Caminhoes", cadastro);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+                teclado.nextLine();
+                System.out.println("Qual o Chassi do caminhão que deseja visualizar ?");
+                chassi = teclado.nextLine();
+
+                Caminhao v = visualizar.findCaminhao(chassi.toUpperCase());
+                if (v == null){
+                    System.out.println("Não foi possivel encontrar um Caminhão com este chassi");
+                } else {
+                    System.out.println("===========================");
+                    System.out.println(v);
+                    System.out.println("===========================");
+                }
+                break;
+            case 4:
+                //método ver todos caminhões
+                Caminhoes vertodos;
+
+                try {
+                    vertodos = (Caminhoes) Serializador.ler("Caminhoes");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+                vertodos.viewcaminhao();
+
+                break;
+            case 5:
+                //remover
+                Caminhoes excluir;
+                try {
+                    excluir = (Caminhoes) Serializador.ler("Caminhoes");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+                teclado.nextLine();
+                System.out.println("Qual o Chassi do caminhão que deseja visualizar ?");
+                chassi = teclado.nextLine();
+
+                Caminhao ex = excluir.findCaminhao(chassi.toUpperCase());
+                if (ex == null){
+                    System.out.println("Não foi possivel encontrar um Caminhão com este chassi");
+                } else {
+                    excluir.removeCaminhao(ex);
+                    try {
+                        Serializador.gravar("Caminhoes",excluir);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    System.out.println("Caminhão Excluido com sucesso");
+                }
+                break;
+            case 6:
+                //calcular desvalorização
+                Caminhoes simular;
+                try {
+                    simular = (Caminhoes) Serializador.ler("Caminhoes");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+                teclado.nextLine();
+                System.out.println("Qual o Chassi do caminhão que deseja simular ?");
+                chassi = teclado.nextLine();
+
+                Caminhao s = simular.findCaminhao(chassi.toUpperCase());
+                if (s == null){
+                    System.out.println("Não foi possivel encontrar um Caminhão com este chassi");
+                } else {
+
+                }
+                break;
+            case 7:
+                //finalizar
+                break;
+            case 8:
+                //debug
+                Caminhoes cadastro1 = new Caminhoes();
+
+                Caminhao c1 = new Caminhao("toyota", "Caminhão", 3, 3033.3, "Truck", "Combustão", 3, "cinza", "9BWHE21JX24060831", 60, 30000, 4);
+
+                cadastro1.addCaminhao(c1);
+                try {
+                    Serializador.gravar("Caminhoes", cadastro1);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
         }
     }
 }
