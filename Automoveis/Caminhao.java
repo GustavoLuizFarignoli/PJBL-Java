@@ -2,6 +2,8 @@ package Automoveis;
 import Estoque.Caminhoes;
 import Estoque.Carros;
 import Estoque.Serializador;
+import Registros.RegistroAluguel;
+import Registros.RegistroVenda;
 
 import java.awt.*;
 import java.io.IOException;
@@ -95,7 +97,7 @@ public class Caminhao extends Automovel{
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
                     }
-                }
+                    }
 
                 valido = false;
                 kilomt = 0;
@@ -176,102 +178,103 @@ public class Caminhao extends Automovel{
                             default:
                                 System.out.println("Digite um valor válido");
                         }
+                        } catch (Exception e) {
+                            System.out.println("Erro desconhecido, tente novamente");
+                        }
+                    }
+
+                    valido = false;
+                    break;
+                }
+
+                valido = false;
+                int qt_marcha = 0;
+                while (!valido) {
+                    try {
+                        System.out.println("Digite a quantidade de marchas deste caminhão: ");
+                        qt_marcha = Integer.parseInt(teclado.nextLine());
+                        valido = true;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Por favor responda apenas com números inteiros");
+                    } catch (Exception e) {
+                        System.out.println("Erro Desconhecido, tente novamente");
+                    }
+                }
+
+                valido = false;
+                String cor = "";
+                while (!valido) {
+                    try {
+                        System.out.println("Digite a cor deste caminhão: ");
+                        cor = teclado.nextLine();
+                        valido = true;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Por favor responda apenas com números inteiros");
+                    } catch (Exception e) {
+                        System.out.println("Erro Desconhecido, tente novamente");
+                    }
+                }
+
+                valido = false;
+                int tamanhotanque = 0;
+                while (!valido) {
+                    try {
+                        System.out.println("Digite o tamanho do tanque deste caminhão: ");
+                        tamanhotanque = Integer.parseInt(teclado.nextLine());
+                        valido = true;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Por favor responda apenas com números inteiros");
+                    } catch (Exception e) {
+                        System.out.println("Erro Desconhecido, tente novamente");
+                    }
+                }
+
+                valido = false;
+                String chassi = "";
+                String serial = "";
+                while (!valido) {
+                    try {
+                        System.out.println("Digite o serial do chassi deste caminhão: ");
+                        serial = teclado.nextLine();
+                        if (serial.length() == 17) {
+                            chassi = teclado.nextLine();
+                            valido = true;
+                        } else {
+                            System.out.println("Digite um serial válido, 17 letras no total.");
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Por favor responda apenas com números inteiros");
+                    } catch (Exception e) {
+                        System.out.println("Erro Desconhecido, tente novamente");
+                    }
+                }
+
+                valido = false;
+                double valor = 0;
+                while (!valido) {
+                    try {
+                        System.out.println("Digite o valor deste caminhão: ");
+                        valor = Double.parseDouble(teclado.nextLine());
+                        valido = true;
                     } catch (Exception e) {
                         System.out.println("Erro desconhecido, tente novamente");
                     }
                 }
 
                 valido = false;
-                break;
-        }
-
-        valido = false;
-        int qt_marcha = 0;
-        while (!valido) {
-            try {
-                System.out.println("Digite a quantidade de marcha deste caminhão: ");
-                qt_marcha = Integer.parseInt(teclado.nextLine());
-                valido = true;
-            } catch (InputMismatchException e) {
-                System.out.println("Por favor responda apenas com números inteiros");
-            } catch (Exception e) {
-                System.out.println("Erro Desconhecido, tente novamente");
-            }
-        }
-
-        valido = false;
-        String cor = "";
-        while (!valido) {
-            try {
-                System.out.println("Digite a cor deste caminhão: ");
-                cor = teclado.nextLine();
-                valido = true;
-            } catch (InputMismatchException e) {
-                System.out.println("Por favor responda apenas com números inteiros");
-            } catch (Exception e) {
-                System.out.println("Erro Desconhecido, tente novamente");
-            }
-        }
-
-        valido = false;
-        int tamanhotanque = 0;
-        while (!valido) {
-            try {
-                System.out.println("Digite o tamanho do tanque deste caminhão: ");
-                tamanhotanque = Integer.parseInt(teclado.nextLine());
-                valido = true;
-            } catch (InputMismatchException e) {
-                System.out.println("Por favor responda apenas com números inteiros");
-            } catch (Exception e) {
-                System.out.println("Erro Desconhecido, tente novamente");
-            }
-        }
-
-        valido = false;
-        String chassi = "";
-        String serial = "";
-        while (!valido) {
-            try {
-                System.out.println("Digite o serial do chassi deste caminhão: ");
-                serial = teclado.nextLine();
-                if (serial.length() == 17) {
-                    chassi = teclado.nextLine();
-                    valido = true;
-                } else {
-                    System.out.println("Digite um serial válido, 17 letras no total.");
+                int n_eixos = 0;
+                while (!valido) {
+                    try {
+                        System.out.println("Digite o número de eixos deste caminhão: ");
+                        n_eixos = Integer.parseInt(teclado.nextLine());
+                        valido = true;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Por favor responda apenas com números inteiros");
+                    } catch (Exception e) {
+                        System.out.println("Erro Desconhecido, tente novamente");
+                    }
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Por favor responda apenas com números inteiros");
-            } catch (Exception e) {
-                System.out.println("Erro Desconhecido, tente novamente");
-            }
-        }
 
-        valido = false;
-        double valor = 0;
-        while (!valido) {
-            try {
-                System.out.println("Digite o valor deste caminhão: ");
-                valor = Double.parseDouble(teclado.nextLine());
-                valido = true;
-            } catch (Exception e) {
-                System.out.println("Erro desconhecido, tente novamente");
-            }
-        }
-
-        valido = false;
-        int n_eixos = 0;
-        while (!valido) {
-            try {
-                System.out.println("Digite o número de eixos deste caminhão: ");
-                n_eixos = Integer.parseInt(teclado.nextLine());
-                valido = true;
-            } catch (InputMismatchException e) {
-                System.out.println("Por favor responda apenas com números inteiros");
-            } catch (Exception e) {
-                System.out.println("Erro Desconhecido, tente novamente");
-            }
-        }
         Caminhoes cadastro;
         try {
             cadastro = (Caminhoes) Serializador.ler("Caminhoes");
