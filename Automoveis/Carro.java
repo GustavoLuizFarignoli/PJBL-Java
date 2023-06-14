@@ -95,9 +95,9 @@ public class Carro extends Automovel {
                 teclado.nextLine();
                 while (!valido){
                     try {
-                        System.out.println("Digite o combustível do carro: ");
+                        System.out.println("Qual dos seguintes tipo: Elétrico; Combustão ou Híbrido, seu carro pertence: ");
                         combustivel = teclado.nextLine();
-                        if (combustivel.toLowerCase().equals("elétrico")   || combustivel.toLowerCase() == "combustão" || combustivel.toLowerCase() == "híbrido") {
+                        if (combustivel.equalsIgnoreCase("elétrico") || combustivel.equalsIgnoreCase("combustão")  || combustivel.equalsIgnoreCase("híbrido")) {
                             combustivel = combustivel.substring(0, 1).toUpperCase() + combustivel.substring(1).toLowerCase();
                             valido = true;
                         }

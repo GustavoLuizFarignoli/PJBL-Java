@@ -1,5 +1,6 @@
 package Automoveis;
 import Estoque.Caminhoes;
+import Estoque.Carros;
 import Estoque.Serializador;
 
 import java.awt.*;
@@ -39,7 +40,7 @@ public class Caminhao extends Automovel{
         }
         setValor(getValor() * Taxa);
     }
-    public static void menuMoto(int op) {
+    public static void menuCaminhao(int op) {
         Scanner teclado = new Scanner(System.in);
         System.out.println("******Menu Caminhão******\n" +
                 "1. Registrar venda\n" +
@@ -112,9 +113,9 @@ public class Caminhao extends Automovel{
                 combustivel = "";
                 while (!valido) {
                     try {
-                        System.out.println("Digite o combustível do caminhão: ");
+                        System.out.println("Qual dos seguintes tipo: Elétrico; Combustão ou Híbrido, seu caminhão pertence: ");
                         combustivel = teclado.nextLine();
-                        if (combustivel.toLowerCase() == "elétrico" || combustivel.toLowerCase() == "combustão" || combustivel.toLowerCase() == "híbrido") {
+                        if (combustivel.equalsIgnoreCase("elétrico") || combustivel.equalsIgnoreCase("combustão")  || combustivel.equalsIgnoreCase("híbrido")) {
                             combustivel = combustivel.substring(0, 1).toUpperCase() + combustivel.substring(1).toLowerCase();
                             valido = true;
                         } else {
@@ -277,6 +278,7 @@ public class Caminhao extends Automovel{
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+
 
         Caminhao c = new Caminhao(marca, modelo, idade, (int) kilomt, tipo, combustivel, qt_marcha, cor, chassi, tamanhotanque, valor, n_eixos);
 
