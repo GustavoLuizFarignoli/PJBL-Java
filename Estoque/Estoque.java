@@ -7,9 +7,12 @@ import Pessoas.Cliente;
 import Pessoas.Vendedor;
 import Registros.RegistroVenda;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class Estoque implements Serializable {
     private ArrayList<Automovel> estoque = new ArrayList<>();
@@ -24,11 +27,30 @@ public class Estoque implements Serializable {
 
     public Estoque(){
         //ler arquivo carro
+        Carros carros;
+        try {
+            carros = (Carros) Serializador.ler("Carros");
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         //adicionar os carros individualmente a ao estoque
         //ler arquivo moto
+        Motos motos;
+        try {
+            motos = (Motos) Serializador.ler("Motos");
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         //adicionar as motos individualmente a ao estoque
         //ler arquivo caminhao
+        Caminhoes caminhoes;
+        try {
+            caminhoes = (Caminhoes) Serializador.ler("Caminhoes");
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         //adicionar os caminhaos individualmente a ao estoque
+        this.estoquecaminhao.addAll(caminhoes.getCaminhoes());
     }
 
     public void setEstoques(){
@@ -71,5 +93,23 @@ public class Estoque implements Serializable {
         v.setComissao(a.getValor());
         //gravar estoque
         //fora da função remover o automovel do arquivo correspondente e gravar
+    }
+
+    public static void menuEstoque(int op){
+        Scanner teclado = new Scanner(System.in);
+        System.out.println("******Menu Cliente******\n" +
+                "1. Registrar Venda\n" +
+                "2. Registrar Aluguel\n" +
+                "3. Visualizar Estoque\n");
+        System.out.print("Digite o comando desejado: ");
+        op = teclado.nextInt();
+        switch (op) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
     }
 }

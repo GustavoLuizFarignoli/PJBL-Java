@@ -9,6 +9,10 @@ import java.util.Objects;
 public class Caminhoes implements Serializable{
     private ArrayList<Caminhao> caminhoes = new ArrayList<>();
 
+    public ArrayList<Caminhao> getCaminhoes() {
+        return caminhoes;
+    }
+
     public Caminhoes() {
         caminhoes = new ArrayList<>();
     }

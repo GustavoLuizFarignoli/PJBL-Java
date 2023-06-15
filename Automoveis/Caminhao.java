@@ -16,27 +16,27 @@ public class Caminhao extends Automovel {
     }
 
     @Override
-    public void depreciar(int anos) {
-        double Taxa = 0;
-        envelhecer(anos);
+    public void depreciar(int idade, double valor) {
+        double taxa = 0;
         if (this.n_eixos <= 4) {
-            if (getIdade() <= 8) {
-                Taxa = 0.02;
-            } else if (getIdade() <= 12) {
-                Taxa = 0.06;
+            if (idade <= 8) {
+                taxa = 0.02;
+            } else if (idade <= 12) {
+                taxa = 0.06;
             } else {
-                Taxa = 0.13;
+                taxa = 0.13;
             }
         } else if (this.n_eixos <= 9) {
-            if (getIdade() <= 6) {
-                Taxa = 0.04;
-            } else if (getIdade() <= 9) {
-                Taxa = 0.09;
+            if (idade <= 6) {
+                taxa = 0.04;
+            } else if (idade <= 9) {
+                taxa = 0.09;
             } else {
-                Taxa = 0.16;
+                taxa = 0.16;
             }
         }
-        setValor(getValor() * Taxa);
+        valor -= valor * taxa;
+        System.out.println("O valor do caminhão seria R$" + valor);
     }
 
     public String toString() {
@@ -346,7 +346,7 @@ public class Caminhao extends Automovel {
                 }
 
                 teclado.nextLine();
-                System.out.println("Qual o Chassi do caminhão que deseja visualizar ?");
+                System.out.println("Qual o Chassi do caminhão que deseja excluir ?");
                 chassi = teclado.nextLine();
 
                 Caminhao ex = excluir.findCaminhao(chassi.toUpperCase());
@@ -372,7 +372,7 @@ public class Caminhao extends Automovel {
                 }
 
                 teclado.nextLine();
-                System.out.println("Qual o Chassi do caminhão que deseja simular ?");
+                System.out.println("Qual o Chassi do caminhão que deseja simular a desvalorização ?");
                 chassi = teclado.nextLine();
 
                 Caminhao s = simular.findCaminhao(chassi.toUpperCase());
@@ -380,6 +380,20 @@ public class Caminhao extends Automovel {
                     System.out.println("Não foi possivel encontrar um Caminhão com este chassi");
                 } else {
 
+                    valido = false;
+                    idade = 0;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite quantos anos deseja envelhecer este caminhão: ");
+                            idade = Integer.parseInt(teclado.nextLine());
+                            valido = true;
+                        } catch (InputMismatchException e) {
+                            System.out.println("Por favor responda apenas com números inteiros");
+                        } catch (Exception e) {
+                            System.out.println("Erro Desconhecido, tente novamente");
+                        }
+                    }
+                    s.depreciar(s.getIdade()+idade,s.getValor());
                 }
                 break;
             case 7:
