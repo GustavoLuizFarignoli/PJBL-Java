@@ -30,5 +30,13 @@ public class Caminhoes implements Serializable{
         return caminhoes;
     }
 
+    public void viewcaminhao(){
+        for (Caminhao c : this.caminhoes){
+            System.out.println("===========================");
+            System.out.println(c);
+        }
+        System.out.println("===========================");
+    }
+
 }
 
