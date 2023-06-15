@@ -30,5 +30,16 @@ public class Motos implements Serializable{
         }
         return motos; //Quem for usar tem que tratar do resultado nulo
     }
+    public void viewMotos(){
+        for (Moto m : this.motos){
+            System.out.println("===========================");
+            System.out.println(m);
+        }
+        System.out.println("===========================");
+    }
+
+    public ArrayList<Moto> getlista() {
+        return motos;
+    }
 
 }
