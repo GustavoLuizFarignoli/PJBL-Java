@@ -1,6 +1,8 @@
 package Pessoas;
 import Estoque.Funcionario;
 import Estoque.Serializador;
+import Excecao.IdentificadorDuplicado;
+import Excecao.MenorIdade;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -80,6 +82,13 @@ public class Vendedor extends Pessoa implements Serializable {
         op = teclado.nextInt();
         switch (op) {
             case 1:
+                Funcionario cadastro;
+                try {
+                    cadastro = (Funcionario) Serializador.ler("Funcionarios");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
                 teclado.nextLine(); //Preciso dessa linha, pois o nextint não "consome" o /n
                 boolean valido = false;
 
@@ -93,11 +102,16 @@ public class Vendedor extends Pessoa implements Serializable {
                 String cpf = "";
                 while (!valido) {
                     try {
-                        System.out.println("Digite o CPF deste Vendedor: ");
+                        System.out.println("Digite o CPF deste Cliente: ");
                         cpf = teclado.nextLine();
                         if (validarCPF(cpf)) { // Transformar em Exception ?
-                            valido = true;
                             cpf = cpfformat(cpf);
+                            Vendedor id = cadastro.findfuncionario(cpf);
+                            if (id == null){
+                                valido = true;
+                            } else {
+                                throw new IdentificadorDuplicado();
+                            }
                         } else {
                             System.out.println("Número de CPF Inválido");
                         }
@@ -105,6 +119,8 @@ public class Vendedor extends Pessoa implements Serializable {
                         System.out.println("Por favor responda apenas com números inteiros");
                     } catch (NumberFormatException e) {
                         System.out.println("Erro de formato");
+                    }catch (IdentificadorDuplicado e){
+                        System.out.println("Este CPF já está cadastro e não pode ser cadastrado novamente");
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
                     }
@@ -117,13 +133,16 @@ public class Vendedor extends Pessoa implements Serializable {
                         System.out.println("Digite a idade deste Vendedor: ");
                         idade = Integer.parseInt(teclado.nextLine());
                         if (idade < 18){
-                            valido = true;
+                            throw new MenorIdade();
                         }else {
-                            System.out.println("Os funcionários precisam ser maior de idade");
+                            valido = true;
                         }
                     } catch (InputMismatchException e) {
                         System.out.println("Por favor responda apenas com números inteiros");
-                    } catch (Exception e) {
+                    } catch (MenorIdade e){
+                        System.out.println("Os funcionários precisam ser maior de idade");
+                    }
+                    catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
                     }
                 }
@@ -181,13 +200,6 @@ public class Vendedor extends Pessoa implements Serializable {
                     }
                 }
 
-                Funcionario cadastro;
-                try {
-                    cadastro = (Funcionario) Serializador.ler("Funcionarios");
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-
                 Vendedor v = new Vendedor(nome,cpf, idade,numtelefone,cep,salario,0,0);
 
                 cadastro.addFuncionario(v);
@@ -211,7 +223,7 @@ public class Vendedor extends Pessoa implements Serializable {
                 cpf = teclado.nextLine();
                 cpf = cpfformat(cpf);
 
-                Vendedor edit = editar.findcliente(cpf);
+                Vendedor edit = editar.findfuncionario(cpf);
                 if (edit == null){
                     System.out.println("Não foi possivel encontrar nenhum vendedor com este cpf");
                 } else {
@@ -236,10 +248,12 @@ public class Vendedor extends Pessoa implements Serializable {
                                 edit.setIdade(idade);
                                 valido = true;
                             } else {
-                                System.out.println("Idade inválida");
+                                throw new MenorIdade();
                             }
                         } catch (InputMismatchException e) {
                             System.out.println("Por favor responda apenas com números inteiros");
+                        } catch (MenorIdade e){
+                            System.out.println("Os funcionários precisam ser maior de idade");
                         } catch (Exception e) {
                             System.out.println("Erro Desconhecido, tente novamente");
                         }
@@ -324,7 +338,7 @@ public class Vendedor extends Pessoa implements Serializable {
                 cpf = teclado.nextLine();
                 cpf = cpfformat(cpf);
 
-                Vendedor ex = excluir.findcliente(cpf);
+                Vendedor ex = excluir.findfuncionario(cpf);
                 if (ex == null){
                     System.out.println("Não foi possivel encontrar nenhum vendedor com este cpf");
                 } else {
@@ -351,7 +365,7 @@ public class Vendedor extends Pessoa implements Serializable {
                 cpf = teclado.nextLine();
                 cpf = cpfformat(cpf);
 
-                Vendedor ver = visualizar.findcliente(cpf);
+                Vendedor ver = visualizar.findfuncionario(cpf);
                 if (ver == null){
                     System.out.println("Não foi possivel encontrar nenhum vendedor com este cpf");
                 } else {
@@ -383,7 +397,7 @@ public class Vendedor extends Pessoa implements Serializable {
                 cpf = teclado.nextLine();
                 cpf = cpfformat(cpf);
 
-                Vendedor editcomissao = editarcomissao.findcliente(cpf);
+                Vendedor editcomissao = editarcomissao.findfuncionario(cpf);
                 if (editcomissao == null){
                     System.out.println("Não foi possivel encontrar nenhum vendedor com este cpf");
                 } else {

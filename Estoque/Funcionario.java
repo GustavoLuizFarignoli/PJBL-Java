@@ -20,7 +20,7 @@ public class Funcionario implements Serializable {
         this.funcionarios.remove(funcionario);
     }
 
-    public Vendedor findcliente(String cpf){
+    public Vendedor findfuncionario(String cpf){
         Vendedor vendedor = null;
         for (Vendedor v : this.funcionarios){
             if (Objects.equals(v.getCpf(), cpf)){

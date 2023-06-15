@@ -2,6 +2,7 @@ package Pessoas;
 
 import Estoque.Clientes;
 import Estoque.Serializador;
+import Excecao.IdentificadorDuplicado;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -14,16 +15,6 @@ public class Cliente extends Pessoa implements Serializable {
     public Cliente(String nome, String cpf, int idade, String telefone, String cep) {
         super(nome, cpf, idade, telefone, cep);
     }
-    public void comprarAutomavel(String nome, String telefone, double valor, String modelo, String marca){
-
-    }
-
-    public void alugarAutomavel(String nome,String telefone, double valor, int tempo, String modelo, String marca){
-
-    }
-    //Metódo comprar Automoveis.Carro
-    //Metódo alugar Automoveis.Carro
-
 
     @Override
     public String toString() {
@@ -51,6 +42,13 @@ public class Cliente extends Pessoa implements Serializable {
                 teclado.nextLine(); //Preciso dessa linha, pois o nextint não "consome" o /n
                 boolean valido = false;
 
+                Clientes cadastro;
+                try {
+                    cadastro = (Clientes) Serializador.ler("Clientes");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
                 String nome = "";
                 while (nome.length() == 0){
                     System.out.println("Digite o Nome deste Cliente: ");
@@ -64,8 +62,13 @@ public class Cliente extends Pessoa implements Serializable {
                         System.out.println("Digite o CPF deste Cliente: ");
                         cpf = teclado.nextLine();
                         if (validarCPF(cpf)) { // Transformar em Exception ?
-                            valido = true;
                             cpf = cpfformat(cpf);
+                            Cliente id = cadastro.findcliente(cpf);
+                            if (id == null){
+                                valido = true;
+                            } else {
+                                throw new IdentificadorDuplicado();
+                            }
                         } else {
                             System.out.println("Número de CPF Inválido");
                         }
@@ -73,6 +76,8 @@ public class Cliente extends Pessoa implements Serializable {
                         System.out.println("Por favor responda apenas com números inteiros");
                     } catch (NumberFormatException e) {
                         System.out.println("Erro de formato");
+                    }catch (IdentificadorDuplicado e){
+                        System.out.println("Este CPF já está cadastro e não pode ser cadastrado novamente");
                     } catch (Exception e) {
                             System.out.println("Erro Desconhecido, tente novamente");
                     }
@@ -129,13 +134,6 @@ public class Cliente extends Pessoa implements Serializable {
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
                     }
-                }
-
-                Clientes cadastro;
-                try {
-                    cadastro = (Clientes) Serializador.ler("Clientes");
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
                 }
 
                 Cliente c = new Cliente(nome,cpf, idade,numtelefone,cep);
