@@ -28,7 +28,7 @@ public abstract class Automovel extends Formulario.FormRefactored {
         this.valor = valor;
     }
 
-    public abstract void depreciar(int anos);
+    public abstract void depreciar(int anos, double valor);
 
     public void envelhecer(int anos){
         this.idade += anos;

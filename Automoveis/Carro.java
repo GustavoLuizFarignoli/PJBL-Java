@@ -23,7 +23,7 @@ public class Carro extends Automovel {
         this.horsepower = horsepower;
     }
     @Override
-    public void depreciar(int anos) {
+    public void depreciar(int anos, double valor) {
         double taxa;
         envelhecer(anos);
         if (getIdade() <= 3){

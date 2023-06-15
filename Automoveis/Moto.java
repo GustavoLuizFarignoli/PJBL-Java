@@ -20,7 +20,7 @@ public class Moto extends Automovel implements Serializable {
     }
 
     @Override
-    public void depreciar(int anos) {
+    public void depreciar(int anos, double valor) {
         double Taxa = 0;
         envelhecer(anos);
         if (getIdade() <= 3){
