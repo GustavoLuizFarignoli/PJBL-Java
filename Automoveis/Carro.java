@@ -1,4 +1,5 @@
 package Automoveis;
+import Estoque.Caminhoes;
 import Estoque.Carros;
 import Automoveis.Automovel;
 
@@ -22,6 +23,25 @@ public class Carro extends Automovel {
     public void setHorsepower(int horsepower){
         this.horsepower = horsepower;
     }
+
+    @Override
+    public String toString() {
+        return
+                "Marca: " + getMarca() +
+                        "\nModelo: " + getModelo() +
+                        "\nIdade: " + getIdade() +
+                        "\nQuilometragem: " + getKilomt() +
+                        "\nTipo: " + getTipo() +
+                        "\nCombustivel: " + getCombustivel() +
+                        "\nNúmero de marcha: " + getQt_marcha() +
+                        "\nCor: " + getCor() +
+                        "\nChassi: " + getChassi() +
+                        "\nTamanho do Tanque: " + getTamanhotanque() + "L" +
+                        "\nValor: " + getValor()+
+                        "\nNúmero do Portas: " + this.n_portas+
+                        "\nHorse Power: "+this.horsepower;
+    }
+
     @Override
     public void depreciar(int anos, double valor) {
         double taxa;
@@ -43,7 +63,8 @@ public class Carro extends Automovel {
                 "3. Excluir carro\n" +
                 "4. Visualizar carro\n" +
                 "5. Ver todos os carros\n" +
-                "6. Finalizar\n");
+                "6. Calcular a desvalorização\n" +
+                "7. Finalizar\n");
         System.out.print("Digite o comando desejado: ");
         op = teclado.nextInt();
         switch (op){
@@ -231,13 +252,13 @@ public class Carro extends Automovel {
 
                 valido = false;
                 String chassi = "";
-                String serial = "";
+
                 while (!valido){
                     try {
                         System.out.println("Digite o serial do chassi do carro: ");
-                        serial = teclado.nextLine();
-                        if (serial.length() == 17) {
-                            chassi = (teclado.nextLine()).toUpperCase();
+                        chassi = teclado.nextLine();
+                        if (chassi.length() == 17) {
+                            chassi = chassi.toUpperCase();
                             valido = true;
                         } else {
                             System.out.println("Digite um serial válido, 17 letras no total.");
@@ -256,7 +277,6 @@ public class Carro extends Automovel {
                     throw new RuntimeException(e);
                 }
                 Carro c = new Carro(marca, modelo, idade, kilomt, tipo, combustivel, qt_marcha, cor, chassi, tamanhotanque, valor, n_portas, horsepower);
-
 
                 cadastro.addCarro(c);
                 try {
@@ -277,6 +297,7 @@ public class Carro extends Automovel {
                 teclado.nextLine();
                 System.out.println("Qual o chassi do carro que deseja editar: ");
                 chassi = teclado.nextLine();
+                chassi = chassi.toUpperCase();
 
                 Carro edit =editar.findCarro(chassi);
                 if (edit == null){
@@ -372,7 +393,7 @@ public class Carro extends Automovel {
                     valido = false;
                     while(!valido){
                         String marchas;
-                        System.out.println("Digite a quantidade de marcha(ou deixa vazio para manter): ");
+                        System.out.println("Digite a quantidade de marcha(ou digite 0 para manter): ");
                         marchas = teclado.nextLine();
                         if (!marchas.isEmpty()){
                             try {
@@ -402,7 +423,7 @@ public class Carro extends Automovel {
                     valido = false;
                     while(!valido){
                         String preco;
-                        System.out.println("Digite o valor do carro(ou deixa vazio para manter): ");
+                        System.out.println("Digite o valor do carro(ou digite 0 para manter): ");
                         preco = teclado.nextLine();
                         if (!preco.isEmpty()){
                             try {
@@ -418,7 +439,7 @@ public class Carro extends Automovel {
                     valido = false;
                     while(!valido){
                         String potencia;
-                        System.out.println("Digite o horse power do carro(ou deixa vazio para manter): ");
+                        System.out.println("Digite o horse power do carro(ou digite 0 para manter): ");
                         potencia = teclado.nextLine();
                         if (!potencia.isEmpty()){
                             try {
@@ -434,7 +455,7 @@ public class Carro extends Automovel {
                     valido = false;
                     while(!valido){
                         String tanque;
-                        System.out.println("Digite o tamanha do tanque do carro(ou deixa vazio para manter): ");
+                        System.out.println("Digite o tamanha do tanque do carro(ou digite 0 para manter): ");
                         tanque = teclado.nextLine();
                         if (!tanque.isEmpty()){
                             try {
@@ -450,7 +471,7 @@ public class Carro extends Automovel {
                     valido = false;
                     while(!valido){
                         String portas;
-                        System.out.println("Digite o número de portas do carro(ou deixa vazio para manter): ");
+                        System.out.println("Digite o número de portas do carro(ou digite 0 para manter): ");
                         portas = teclado.nextLine();
                         if (!portas.isEmpty()){
                             try {
@@ -462,13 +483,113 @@ public class Carro extends Automovel {
                             }
                         }
                     }
+                    try {
+                        Serializador.gravar("Carros",editar);
+                    }catch (IOException e){
+                        throw new RuntimeException(e);
+                    }
                     System.out.println("Alterações realizadas com sucesso!");
                 }
+
+
                 break;
             case 3:
-                // metodo de cadastrar carro
+                // metodo de excluir carro
+                Carros excluir;
+                try {
+                    excluir = (Carros) Serializador.ler("Carros");
+                }catch (IOException | ClassNotFoundException e){
+                    throw new RuntimeException(e);
+                }
+
+                teclado.nextLine();
+                System.out.println("Qual é o chassi do carro qie deseja excluir: ");
+                chassi = teclado.nextLine();
+
+                Carro ex = excluir.findCarro(chassi.toUpperCase());
+                if (ex == null){
+                    System.out.println("Não foi possivel encontrar um carro com essa chassi");
+                }else {
+                    excluir.removeCarro(ex);
+                    try {
+                        Serializador.gravar("Carros", excluir);
+                    }catch (IOException e){
+                        throw new RuntimeException(e);
+                    }
+                    System.out.println("Carro excluido com sucessi");
+                }
                 break;
-            case 7:// remover na hora da apresentação
+            case 4:
+                // vizualizar carro especifico
+                Carros visualizar;
+                try {
+                    visualizar=(Carros) Serializador.ler("Carros");
+                }catch (IOException | ClassNotFoundException e){
+                    throw new RuntimeException(e);
+                }
+                teclado.nextLine();
+                System.out.println("Qual o chassi do carro que deseja visualizar: ");
+                chassi = teclado.nextLine();
+
+                Carro v = visualizar.findCarro(chassi.toUpperCase());
+                if(v==null){
+                    System.out.println("Não foi possivel encontrar um carro com esse chassi");
+                }else {
+                    System.out.println("===========================");
+                    System.out.println(v);
+                    System.out.println("===========================");
+                }
+                break;
+            case 5:
+                // visualizar todos os carros
+                Carros vertodos;
+
+                try {
+                    vertodos = (Carros) Serializador.ler("Carros");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+                vertodos.viewcarro();
+
+                break;
+
+            case 6:
+                Carros simular;
+                try {
+                    simular = (Carros) Serializador.ler("Carros");
+                }catch (IOException | ClassNotFoundException e){
+                    throw new RuntimeException(e);
+                }
+
+                teclado.nextLine();
+                System.out.println("Qual o chassi do carro que deseja simular: ");
+                chassi = teclado.nextLine();
+
+                Carro s = simular.findCarro(chassi.toUpperCase());
+                if (s==null){
+                    System.out.println("Não foi possivel encontrar um carro comesse chassi");
+                }else {
+                    valido = false;
+                    idade = 0;
+                    while (!valido){
+                        try {
+                            System.out.println("Digite quantos anos deseja envelhecer este carro: ");
+                            idade = Integer.parseInt(teclado.nextLine());
+                            valido = true;
+                        }catch (InputMismatchException e){
+                            System.out.println("Por favor reponda apenas com números inteiros");
+                        }catch (Exception e){
+                            System.out.println("Erro Desconhecido, tente novamente");
+                        }
+                    }
+                    s.depreciar(s.getIdade()+idade,s.getValor());
+                }
+                break;
+            case 7:
+                // Finalizar
+                break;
+            case 8://remover na hora da apresentação
                 Carros carros1 = new Carros();
                 Carro c1 = new Carro("toyota","corolla", 0, 123,"Sedan","elétrico", 4,"cinza","4An15ase2z8K44325",45,110000,4,125);
                 carros1.addCarro(c1);

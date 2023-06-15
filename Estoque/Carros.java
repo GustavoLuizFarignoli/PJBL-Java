@@ -31,4 +31,11 @@ public class Carros implements Serializable{
         return carros; //Quem for usar tem que tratar do resultado nulo
     }
 
+    public void viewcarro(){
+        for (Carro c : this.carros){
+            System.out.println("===========================");
+            System.out.println(c);
+        }
+        System.out.println("===========================");
+    }
 }
