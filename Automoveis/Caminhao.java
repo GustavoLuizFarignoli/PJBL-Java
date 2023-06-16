@@ -1,5 +1,6 @@
 package Automoveis;
 import Estoque.Caminhoes;
+import Estoque.Motos;
 import Estoque.Serializador;
 
 import java.awt.*;
@@ -8,6 +9,10 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Caminhao extends Automovel {
+
+    public void setEixos(int n_eixos) {
+        this.n_eixos = n_eixos;
+    }
     private int n_eixos;
 
     public Caminhao(String marca, String modelo, int idade, double kilomt, String tipo, String combustivel, int qt_marcha, String cor, String chassi, int tamanhotanque, double valor, int n_eixos) throws HeadlessException {
@@ -58,14 +63,15 @@ public class Caminhao extends Automovel {
 
     public static void menuCaminhao(int op) {
         Scanner teclado = new Scanner(System.in);
-        System.out.println("******Menu Caminhão******\n" +
-                "1. Cadastrar caminhão\n" +
-                "2. Editar caminhão\n" +
-                "3. Procurar Caminhão\n" +
-                "4. Visualizar Caminhões\n" +
-                "5. Excluir Caminhão\n" +
-                "6. Calcular a desvalorização\n" +
-                "7. Finalizar");
+        System.out.println("""
+                ******Menu Caminhão******
+                1. Cadastrar caminhão
+                2. Editar caminhão
+                3. Procurar Caminhão
+                4. Visualizar Caminhões
+                5. Excluir Caminhão
+                6. Calcular a desvalorização
+                7. Finalizar""");
         System.out.print("Digite o comando desejado: ");
         op = teclado.nextInt();
         boolean valido;
@@ -300,6 +306,238 @@ public class Caminhao extends Automovel {
                 break;
             case 2:
                 //método editar caminhão
+                Caminhoes editar;
+                try {
+                    editar = (Caminhoes) Serializador.ler("Caminhoes");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+                teclado.nextLine();
+                System.out.println("Digite o serial do chassi do caminhão à ser editada: ");
+                chassi = teclado.nextLine();
+
+                Caminhao edit = editar.findCaminhao(chassi);
+                if (edit == null) {
+                    System.out.println("Não foi possivel encontrar nenhum com este serial");
+                } else {
+                    //Código editar
+                    System.out.println(edit);
+                    System.out.println("===========================");
+
+                    System.out.println("Digite a nova marca (ou deixe em branco para manter o valor atual):");
+                    marca = teclado.nextLine();
+                    if (!marca.isEmpty()) {
+                        edit.setMarca(marca);
+                    }
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite o novo modelo do caminhão (ou deixe em branco para manter o valor atual): ");
+                            modelo = teclado.nextLine();
+                            if (!modelo.isEmpty()) {
+                                edit.setModelo(modelo);
+                                valido = true;
+                            } else {
+                                valido = true;
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Erro desconhecido");
+                        }
+                    }
+
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite a idade deste caminhão (ou digite 0 para manter valor atual): ");
+                            idade = Integer.parseInt(teclado.nextLine());
+                            valido = true;
+                            if (idade != 0) {
+                                edit.setIdade(idade);
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Por favor responda apenas com números inteiros");
+                        } catch (Exception e) {
+                            System.out.println("Erro Desconhecido, tente novamente");
+                        }
+                    }
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite a quilometragem deste caminhão (ou digite 0 para manter valor atual): ");
+                            kilomt = Long.parseLong(teclado.nextLine());
+                            valido = true;
+                            if (kilomt != 0) {
+                                edit.setKilomt(kilomt);
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Erro desconhecido, tente novamente");
+                        }
+                    }
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Para qual dos seguintes tipo: Elétrico; Combustão ou Híbrido, você deseja alterar seu caminhão (Ou deixe em branco para manter valor atual): ");
+                            combustivel = teclado.nextLine();
+                            if (!combustivel.isEmpty()) {
+                                if (combustivel.equalsIgnoreCase("elétrico") || combustivel.equalsIgnoreCase("combustão") || combustivel.equalsIgnoreCase("híbrido")) {
+                                    edit.setCombustivel(combustivel);
+                                    valido = true;
+                                }
+                            } else {
+                                System.out.print("Digite um dos seguintes tipo: Elétrico; Combustão ou Híbrido");
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Erro desconhecido, tente novamente");
+                        }
+                    }
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("""
+                                    ******Menu Tipo******
+                                    "1. 3/4 ou VUC
+                                    "2. Toco
+                                    "3. Truck
+                                    "4. Cavalo Mecânico Simples
+                                    "5. Cavalo Mecânico Trucado
+                                    "6. Conjunto Carreta
+                                    "7. Bitrem
+                                    "8. Rodotrem
+                                    """);
+                            System.out.print("Digite o tipo desejado: ");
+                            op = Integer.parseInt(teclado.nextLine());
+                            if (op != 0) {
+                                switch (op) {
+                                    case 1 -> {
+                                        edit.setTipo("3/4 ou VUC");
+                                        valido = true;
+                                    }
+                                    case 2 -> {
+                                        edit.setTipo("Toco");
+                                        valido = true;
+                                    }
+                                    case 3 -> {
+                                        edit.setTipo("Truck");
+                                        valido = true;
+                                    }
+                                    case 4 -> {
+                                        edit.setTipo("Cavalo Mecânico Simples");
+                                        valido = true;
+                                    }
+                                    case 5 -> {
+                                        edit.setTipo("Cavalo Mecânico Trucado");
+                                        valido = true;
+                                    }
+                                    case 6 -> {
+                                        edit.setTipo("Conjunto Carreta");
+                                        valido = true;
+                                    }
+                                    case 7 -> {
+                                        edit.setTipo("Bitrem");
+                                        valido = true;
+                                    }
+                                    case 8 -> {
+                                        edit.setTipo("Rodotrem");
+                                        valido = true;
+                                    }
+                                    default -> System.out.println("Digite um valor válido");
+                                }
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Erro desconhecido, tente novamente");
+                        }
+                    }
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite o valor deste caminhão (ou digite 0 para manter valor atual): ");
+                            valor = Double.parseDouble(teclado.nextLine());
+                            valido = true;
+                            if (valor != 0) {
+                                edit.setValor(valor);
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Erro desconhecido, tente novamente");
+                        }
+                    }
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite o número de eixos deste caminhão (ou digite 0 para manter valor atual): ");
+                            n_eixos = Integer.parseInt(teclado.nextLine());
+                            valido = true;
+                            if (n_eixos != 0) {
+                                edit.setEixos(n_eixos);
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Por favor responda apenas com números inteiros");
+                        } catch (Exception e) {
+                            System.out.println("Erro Desconhecido, tente novamente");
+                        }
+                    }
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite o número de marchas deste caminhão (ou digite 0 para manter valor atual): ");
+                            qt_marcha = Integer.parseInt(teclado.nextLine());
+                            valido = true;
+                            if (qt_marcha != 0) {
+                                edit.setQt_marcha(qt_marcha);
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Por favor responda apenas com números inteiros");
+                        } catch (Exception e) {
+                            System.out.println("Erro Desconhecido, tente novamente");
+                        }
+                    }
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite a cor deste caminhão (ou deixe em branco para manter valor atual): ");
+                            cor = teclado.nextLine();
+                            valido = true;
+                            if (!cor.isEmpty()) {
+                                edit.setCor(cor);
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Por favor responda apenas com números inteiros");
+                        } catch (Exception e) {
+                            System.out.println("Erro Desconhecido, tente novamente");
+                        }
+                    }
+
+                    valido = false;
+                    while (!valido) {
+                        try {
+                            System.out.println("Digite o tamanho do tanque deste caminhão (ou digite 0 para manter valor atual): ");
+                            tamanhotanque = Integer.parseInt(teclado.nextLine());
+                            valido = true;
+                            if (tamanhotanque != 0) {
+                                edit.setTamanhotanque(tamanhotanque);
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Por favor responda apenas com números inteiros");
+                        } catch (Exception e) {
+                            System.out.println("Erro Desconhecido, tente novamente");
+                        }
+                    }
+
+                    try {
+                        Serializador.gravar("Caminhoes", editar);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 break;
             case 3:
                 //metódo visualizar caminhão especifico
