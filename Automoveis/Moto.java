@@ -44,10 +44,17 @@ public class Moto extends Automovel implements Serializable {
                 "3. Excluir moto\n" +
                 "4. Visualizar moto\n" +
                 "5. Ver todas as motos\n" +
-                "6. Finalizar");
-        System.out.print("Digite o comando desejado: ");
+                "6. Calcular a desvalorização\n" +
+                "7. Finalizar\n");
+                System.out.print("Digite o comando desejado: ");
         op = teclado.nextInt();
         switch (op) {
+            case 7:
+                // Finalizar menu
+                break;
+            case 6:
+                // metodo de depreciar
+                break;
             case 5:
                 // Metodo de Ver todas as motos
                 Motos vertodos;

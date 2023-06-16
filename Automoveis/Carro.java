@@ -43,17 +43,17 @@ public class Carro extends Automovel {
     }
 
     @Override
-    public void depreciar(int anos, double valor) {
+    public void depreciar(int idade, double valor) {
         double taxa;
-        envelhecer(anos);
-        if (getIdade() <= 3){
+        if (idade <= 3){
             taxa = 0.05;
-        } else if (getIdade() <= 8){
+        } else if (idade <= 8){
             taxa = 0.07;
         } else {
             taxa = 0.12;
         }
-        setValor(getValor() * (1-taxa));
+        valor -= valor * taxa;
+        System.out.println("O valor do carro seria R$" + valor);
     }
     public static void menuCarro(int op){
         Scanner teclado = new Scanner(System.in);
@@ -188,11 +188,20 @@ public class Carro extends Automovel {
                     }
                 }
 
-                valido = false;
                 String cor = "";
-                while (cor.length()==0){
-                    System.out.println("Digite a cor do carro: ");
-                    cor = teclado.nextLine();
+                valido = false;
+                while (!valido){
+                    try {
+                        System.out.println("Digite a cor do carro(ou deixa vazio para manter): ");
+                        cor = teclado.nextLine();
+                        if (cor.matches(".*\\d+.*")){
+                            System.out.println("Não digite números");
+                        } else if (!cor.isEmpty()){
+                            valido = true;
+                        }
+                    }catch (Exception e){
+                        System.out.println("Erro desconhecido, tenta novamente");
+                    }
                 }
                 cor = cor.substring(0,1).toUpperCase() + cor.substring(1).toLowerCase();
 
@@ -403,6 +412,8 @@ public class Carro extends Automovel {
                             }catch (Exception e){
                                 System.out.println("Digite apenas números inteiros");
                             }
+                        } else {
+                            valido = true;
                         }
                     }
 
@@ -411,10 +422,15 @@ public class Carro extends Automovel {
                         try {
                             System.out.println("Digite a cor do carro(ou deixa vazio para manter): ");
                             cor = teclado.nextLine();
-                            if (!cor.isEmpty()){
+                            if (cor.matches(".*\\d+.*")){
+                                System.out.println("Não digite números");
+                            } else if (!cor.isEmpty()){
+                                cor = cor.substring(0,1).toUpperCase() + cor.substring(1).toLowerCase();
                                 edit.setCor(cor);
+                                valido = true;
+                            } else {
+                                valido = true;
                             }
-                            valido = true;
                         }catch (Exception e){
                             System.out.println("Erro desconhecido, tenta novamente");
                         }
@@ -423,7 +439,7 @@ public class Carro extends Automovel {
                     valido = false;
                     while(!valido){
                         String preco;
-                        System.out.println("Digite o valor do carro(ou digite 0 para manter): ");
+                        System.out.println("Digite o valor do carro(ou deixe em branco para manter): ");
                         preco = teclado.nextLine();
                         if (!preco.isEmpty()){
                             try {
@@ -433,13 +449,15 @@ public class Carro extends Automovel {
                             }catch (Exception e){
                                 System.out.println("Digite apenas números inteiros");
                             }
+                        } else {
+                            valido = true;
                         }
                     }
 
                     valido = false;
                     while(!valido){
                         String potencia;
-                        System.out.println("Digite o horse power do carro(ou digite 0 para manter): ");
+                        System.out.println("Digite o horse power do carro(ou deixe em branco para manter): ");
                         potencia = teclado.nextLine();
                         if (!potencia.isEmpty()){
                             try {
@@ -449,13 +467,15 @@ public class Carro extends Automovel {
                             }catch (Exception e){
                                 System.out.println("Digite apenas números inteiros");
                             }
+                        } else {
+                            valido = true;
                         }
                     }
 
                     valido = false;
                     while(!valido){
                         String tanque;
-                        System.out.println("Digite o tamanha do tanque do carro(ou digite 0 para manter): ");
+                        System.out.println("Digite o tamanha do tanque do carro(ou deixe em branco para manter): ");
                         tanque = teclado.nextLine();
                         if (!tanque.isEmpty()){
                             try {
@@ -465,13 +485,15 @@ public class Carro extends Automovel {
                             }catch (Exception e){
                                 System.out.println("Digite apenas números inteiros");
                             }
+                        } else {
+                            valido = true;
                         }
                     }
 
                     valido = false;
                     while(!valido){
                         String portas;
-                        System.out.println("Digite o número de portas do carro(ou digite 0 para manter): ");
+                        System.out.println("Digite o número de portas do carro(ou deixe em branco para manter): ");
                         portas = teclado.nextLine();
                         if (!portas.isEmpty()){
                             try {
@@ -481,6 +503,8 @@ public class Carro extends Automovel {
                             }catch (Exception e){
                                 System.out.println("Digite apenas números inteiros");
                             }
+                        } else {
+                            valido = true;
                         }
                     }
                     try {
@@ -516,7 +540,7 @@ public class Carro extends Automovel {
                     }catch (IOException e){
                         throw new RuntimeException(e);
                     }
-                    System.out.println("Carro excluido com sucessi");
+                    System.out.println("Carro excluido com sucesso");
                 }
                 break;
             case 4:
@@ -591,7 +615,7 @@ public class Carro extends Automovel {
                 break;
             case 8://remover na hora da apresentação
                 Carros carros1 = new Carros();
-                Carro c1 = new Carro("toyota","corolla", 0, 123,"Sedan","elétrico", 4,"cinza","4An15ase2z8K44325",45,110000,4,125);
+                Carro c1 = new Carro("toyota","corolla", 0, 123,"Sedan","elétrico", 4,"cinza","4AN15ASE2Z8K44325",45,110000,4,125);
                 carros1.addCarro(c1);
 
                 try {
