@@ -1,17 +1,14 @@
 package Automoveis;
-import Estoque.Clientes;
-import Automoveis.Automovel;
 import Estoque.Motos;
 import Estoque.Serializador;
-import Pessoas.Cliente;
+import Excecao.IdentificadorDuplicado;
 
 import java.awt.*;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Moto extends Automovel implements Serializable {
+public class Moto extends Automovel{
     public void setCilindradas(int cilindradas) {
         this.cilindradas = cilindradas;
     }
@@ -49,6 +46,17 @@ public class Moto extends Automovel implements Serializable {
                 System.out.print("Digite o comando desejado: ");
         op = teclado.nextInt();
         switch (op) {
+            case 8:
+                Moto c1 = new Moto("marca", "modelo", 1, 2, "Moto", "Elétrica", 1, "cor", "3CAA83MAX18XK5481", 32, 23, 123);
+
+                Motos m1 = new Motos();
+                m1.addMoto(c1);
+                try {
+                    Serializador.gravar("Motos", m1);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
             case 7:
                 // Finalizar menu
                 break;
@@ -119,6 +127,13 @@ public class Moto extends Automovel implements Serializable {
                 teclado.nextLine();
                 boolean valido = false;
 
+                Motos cadastro;
+                try {
+                    cadastro = (Motos) Serializador.ler("Motos");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
                 String marca = "";
                 while (marca.length() == 0) {
                     System.out.println("Digite a Marca da moto: ");
@@ -140,7 +155,7 @@ public class Moto extends Automovel implements Serializable {
                         System.out.println("Digite a idade desta moto: ");
                         idade = Integer.parseInt(teclado.nextLine());
                         valido = true;
-                    } catch (InputMismatchException e) {
+                    } catch (NumberFormatException e) {
                         System.out.println("Por favor responda apenas com números inteiros");
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
@@ -154,7 +169,9 @@ public class Moto extends Automovel implements Serializable {
                         System.out.println("Digite a quilometragem desta moto: ");
                         kilomt = Long.parseLong(teclado.nextLine());
                         valido = true;
-                    } catch (Exception e) {
+                    }catch (NumberFormatException e) {
+                        System.out.println("Por favor responda apenas com números inteiros");
+                    }catch (Exception e) {
                         System.out.println("Erro desconhecido, tente novamente");
                     }
                 }
@@ -244,7 +261,10 @@ public class Moto extends Automovel implements Serializable {
                         System.out.println("Digite o valor desta moto: ");
                         valor = Double.parseDouble(teclado.nextLine());
                         valido = true;
-                    } catch (Exception e) {
+                    } catch (NumberFormatException e) {
+                        System.out.println("Por favor responda apenas com números inteiros");
+                    }
+                    catch (Exception e) {
                         System.out.println("Erro desconhecido, tente novamente");
                     }
                 }
@@ -256,7 +276,7 @@ public class Moto extends Automovel implements Serializable {
                         System.out.println("Digite a cilindrada desta moto: ");
                         cilindradas = Integer.parseInt(teclado.nextLine());
                         valido = true;
-                    } catch (InputMismatchException e) {
+                    } catch (NumberFormatException e) {
                         System.out.println("Por favor responda apenas com números inteiros");
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
@@ -270,7 +290,7 @@ public class Moto extends Automovel implements Serializable {
                         System.out.println("Digite o número de marchas desta moto: ");
                         qt_marcha = Integer.parseInt(teclado.nextLine());
                         valido = true;
-                    } catch (InputMismatchException e) {
+                    } catch (NumberFormatException e) {
                         System.out.println("Por favor responda apenas com números inteiros");
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
@@ -298,7 +318,7 @@ public class Moto extends Automovel implements Serializable {
                         System.out.println("Digite o tamanho do tanque desta moto: ");
                         tamanhotanque = Integer.parseInt(teclado.nextLine());
                         valido = true;
-                    } catch (InputMismatchException e) {
+                    } catch (NumberFormatException e) {
                         System.out.println("Por favor responda apenas com números inteiros");
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
@@ -312,22 +332,18 @@ public class Moto extends Automovel implements Serializable {
                         chassi = teclado.nextLine();
                         if (chassi.length() == 17) {
                             chassi = chassi.toUpperCase();
-                            valido = true;
-                        } else {
-                            System.out.println("Digite um serial válido, 17 letras no total.");
+                            Moto id = cadastro.findMoto(chassi);
+                            if (id == null) {
+                                valido = true;
+                            } else {
+                                throw new IdentificadorDuplicado();
+                            }
                         }
-                    } catch (InputMismatchException e) {
-                        System.out.println("Por favor responda apenas com números inteiros");
+                    } catch (IdentificadorDuplicado e){
+                        System.out.println("Este Chassi já está cadastro e não pode ser cadastrado novamente");
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
                     }
-                }
-
-                Motos cadastro;
-                try {
-                    cadastro = (Motos) Serializador.ler("Motos");
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
                 }
 
                 Moto c = new Moto(marca, modelo, idade, kilomt, tipo, combustivel, qt_marcha, cor, chassi, tamanhotanque, valor, cilindradas);
@@ -392,7 +408,7 @@ public class Moto extends Automovel implements Serializable {
                             if (idade != 0) {
                                 edit.setIdade(idade);
                             }
-                        } catch (InputMismatchException e) {
+                        } catch (NumberFormatException e) {
                             System.out.println("Por favor responda apenas com números inteiros");
                         } catch (Exception e) {
                             System.out.println("Erro Desconhecido, tente novamente");
@@ -517,7 +533,7 @@ public class Moto extends Automovel implements Serializable {
                             if (cilindradas != 0) {
                                 edit.setCilindradas(cilindradas);
                             }
-                        } catch (InputMismatchException e) {
+                        } catch (NumberFormatException e) {
                             System.out.println("Por favor responda apenas com números inteiros");
                         } catch (Exception e) {
                             System.out.println("Erro Desconhecido, tente novamente");
@@ -533,7 +549,7 @@ public class Moto extends Automovel implements Serializable {
                             if (qt_marcha != 0) {
                                 edit.setQt_marcha(qt_marcha);
                             }
-                        } catch (InputMismatchException e) {
+                        } catch (NumberFormatException e) {
                             System.out.println("Por favor responda apenas com números inteiros");
                         } catch (Exception e) {
                             System.out.println("Erro Desconhecido, tente novamente");
@@ -565,7 +581,7 @@ public class Moto extends Automovel implements Serializable {
                             if (tamanhotanque != 0) {
                                 edit.setTamanhotanque(tamanhotanque);
                             }
-                        } catch (InputMismatchException e) {
+                        } catch (NumberFormatException e) {
                             System.out.println("Por favor responda apenas com números inteiros");
                         } catch (Exception e) {
                             System.out.println("Erro Desconhecido, tente novamente");
@@ -589,16 +605,16 @@ public class Moto extends Automovel implements Serializable {
     @Override
     public String toString() {
         return "Marca: " + getMarca() +
-                "Modelo: " + getModelo() +
-                "Idade: " + getIdade() +
-                "Quilometragem: " + getKilomt() +
-                "Tipo: " + getTipo() +
-                "Combustível: " + getCombustivel() +
-                "Quantidade de marchas: " + getQt_marcha() +
-                "Cor: " + getCor() +
-                "Chassi: " + getChassi() +
-                "Tamanho do tanque: " + getTamanhotanque() +
-                "Cilindradas: " + getCilindradas() +
-                "Valor: " + getValor();
+                "\nModelo: " + getModelo() +
+                "\nIdade: " + getIdade() +
+                "\nQuilometragem: " + getKilomt() +
+                "\nTipo: " + getTipo() +
+                "\nCombustível: " + getCombustivel() +
+                "\nQuantidade de marchas: " + getQt_marcha() +
+                "\nCor: " + getCor() +
+                "\nChassi: " + getChassi() +
+                "\nTamanho do tanque: " + getTamanhotanque() +
+                "\nCilindradas: " + getCilindradas() +
+                "\nValor: " + getValor();
     }
 }

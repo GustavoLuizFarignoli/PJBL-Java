@@ -1,13 +1,11 @@
 package Automoveis;
-import Estoque.Caminhoes;
 import Estoque.Carros;
-import Automoveis.Automovel;
 
 import Estoque.Serializador;
-import javax.swing.*;
+import Excecao.IdentificadorDuplicado;
+
 import java.awt.*;
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 public class Carro extends Automovel {
@@ -73,6 +71,13 @@ public class Carro extends Automovel {
                 teclado.nextLine();
                 boolean valido = false;
 
+                Carros cadastro;
+                try {
+                    cadastro = (Carros) Serializador.ler("Carros");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
                 String marca = "";
                 while (marca.length()==0){
                     System.out.println("Digite a marca do carro: ");
@@ -92,9 +97,9 @@ public class Carro extends Automovel {
                 while (!valido){
                     System.out.println("Digite a idade do Carro: ");
                     try {
-                        idade = teclado.nextInt();
+                        idade = Integer.parseInt(teclado.nextLine());
                         valido = true;
-                    }catch (InputMismatchException e){
+                    }catch (NumberFormatException e){
                         System.out.println("Por favor responda apenas com números inteiros ");
                     }catch (Exception e){
                         System.out.println("Erro Desconhecido, tente novamento.");
@@ -106,9 +111,9 @@ public class Carro extends Automovel {
                 while (!valido){
                     System.out.println("Digite a quilometragem:  ");
                     try{
-                        kilomt = teclado.nextDouble();
+                        kilomt = Double.parseDouble(teclado.nextLine());
                         valido = true;
-                    }catch (InputMismatchException e){
+                    }catch (NumberFormatException e){
                         System.out.println("Por favor responda apneas com números");
                     }catch (Exception e){
                         System.out.println("Erro Desconhecido, tente novamente");
@@ -181,7 +186,7 @@ public class Carro extends Automovel {
                         System.out.println("Digite a quantidade de marcha: ");
                         qt_marcha = Integer.parseInt(teclado.nextLine());
                         valido = true;
-                    }catch (InputMismatchException e){
+                    }catch (NumberFormatException e){
                         System.out.println("Por favor reponda apenas com números inteiros");
                     }catch (Exception e){
                         System.out.println("Erro Desconhecido, tente novamente");
@@ -224,7 +229,7 @@ public class Carro extends Automovel {
                         System.out.println("Digite o horse power do carro: ");
                         horsepower = Integer.parseInt(teclado.nextLine());
                         valido = true;
-                    }catch (InputMismatchException e){
+                    }catch (NumberFormatException e){
                         System.out.println("Por favor responda apenas com números inteiros");
                     } catch (Exception e){
                         System.out.println("Erro Desconhecido, tente novamente.");
@@ -238,7 +243,7 @@ public class Carro extends Automovel {
                         System.out.println("Digite o tamanho do tanque do carro: ");
                         tamanhotanque = Integer.parseInt(teclado.nextLine());
                         valido = true;
-                    }catch (InputMismatchException e){
+                    }catch (NumberFormatException e){
                         System.out.println("Por favor responda apenas com números inteiros");
                     } catch (Exception e){
                         System.out.println("Erro Desconhecido, tente novamente.");
@@ -252,7 +257,7 @@ public class Carro extends Automovel {
                         System.out.println("Digite o número de portas do carro: ");
                         n_portas = Integer.parseInt(teclado.nextLine());
                         valido = true;
-                    }catch (InputMismatchException e){
+                    }catch (NumberFormatException e){
                         System.out.println("Por favor responda apenas com números inteiros");
                     } catch (Exception e){
                         System.out.println("Erro Desconhecido, tente novamente.");
@@ -268,22 +273,20 @@ public class Carro extends Automovel {
                         chassi = teclado.nextLine();
                         if (chassi.length() == 17) {
                             chassi = chassi.toUpperCase();
-                            valido = true;
+                            Carro id = cadastro.findCarro(chassi);
+                            if (id == null){
+                                valido = true;
+                            } else {
+                                throw new IdentificadorDuplicado();
+                            }
                         } else {
                             System.out.println("Digite um serial válido, 17 letras no total.");
                         }
-                    } catch (InputMismatchException e) {
-                        System.out.println("Por favor responda apenas com números inteiros");
+                    } catch (IdentificadorDuplicado e){
+                        System.out.println("Este Chassi já está cadastro e não pode ser cadastrado novamente");
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
                     }
-                }
-
-                Carros cadastro;
-                try {
-                    cadastro = (Carros) Serializador.ler("Carros");
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
                 }
                 Carro c = new Carro(marca, modelo, idade, kilomt, tipo, combustivel, qt_marcha, cor, chassi, tamanhotanque, valor, n_portas, horsepower);
 
@@ -345,7 +348,7 @@ public class Carro extends Automovel {
                                 idade = Integer.parseInt(age);
                                 edit.setIdade(idade);
                                 valido = true;
-                            }catch (InputMismatchException e){
+                            }catch (NumberFormatException e){
                                 System.out.println("Por favor responda apenas com números inteiros");
                             }
                         }else {
@@ -363,7 +366,7 @@ public class Carro extends Automovel {
                                 kilomt = Double.parseDouble(km);
                                 edit.setKilomt(kilomt);
                                 valido = true;
-                            }catch (InputMismatchException e){
+                            }catch (NumberFormatException e){
                                 System.out.println("Por favor responda apenas com números inteiros");
                             }
                         }else {
@@ -601,7 +604,7 @@ public class Carro extends Automovel {
                             System.out.println("Digite quantos anos deseja envelhecer este carro: ");
                             idade = Integer.parseInt(teclado.nextLine());
                             valido = true;
-                        }catch (InputMismatchException e){
+                        }catch (NumberFormatException e){
                             System.out.println("Por favor reponda apenas com números inteiros");
                         }catch (Exception e){
                             System.out.println("Erro Desconhecido, tente novamente");

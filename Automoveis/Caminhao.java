@@ -2,6 +2,7 @@ package Automoveis;
 import Estoque.Caminhoes;
 import Estoque.Motos;
 import Estoque.Serializador;
+import Excecao.IdentificadorDuplicado;
 
 import java.awt.*;
 import java.io.IOException;
@@ -87,6 +88,13 @@ public class Caminhao extends Automovel {
                 teclado.nextLine();
                 valido = false;
 
+                Caminhoes cadastro;
+                try {
+                    cadastro = (Caminhoes) Serializador.ler("Caminhoes");
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
                 marca = "";
                 while (marca.length() == 0) {
                     System.out.println("Digite a Marca do caminhão: ");
@@ -108,7 +116,7 @@ public class Caminhao extends Automovel {
                         System.out.println("Digite a idade deste caminhão: ");
                         idade = Integer.parseInt(teclado.nextLine());
                         valido = true;
-                    } catch (InputMismatchException e) {
+                    } catch (NumberFormatException e) {
                         System.out.println("Por favor responda apenas com números inteiros");
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
@@ -122,6 +130,8 @@ public class Caminhao extends Automovel {
                         System.out.println("Digite a quilometragem deste caminhão: ");
                         kilomt = Double.parseDouble(teclado.nextLine());
                         valido = true;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Por favor responda apenas com números inteiros");
                     } catch (Exception e) {
                         System.out.println("Erro desconhecido, tente novamente");
                     }
@@ -207,7 +217,7 @@ public class Caminhao extends Automovel {
                         System.out.println("Digite a quantidade de marchas deste caminhão: ");
                         qt_marcha = Integer.parseInt(teclado.nextLine());
                         valido = true;
-                    } catch (InputMismatchException e) {
+                    } catch (NumberFormatException e) {
                         System.out.println("Por favor responda apenas com números inteiros");
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
@@ -221,8 +231,6 @@ public class Caminhao extends Automovel {
                         System.out.println("Digite a cor deste caminhão: ");
                         cor = teclado.nextLine();
                         valido = true;
-                    } catch (InputMismatchException e) {
-                        System.out.println("Por favor responda apenas com números inteiros");
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
                     }
@@ -235,7 +243,7 @@ public class Caminhao extends Automovel {
                         System.out.println("Digite o tamanho do tanque deste caminhão: ");
                         tamanhotanque = Integer.parseInt(teclado.nextLine());
                         valido = true;
-                    } catch (InputMismatchException e) {
+                    } catch (NumberFormatException e) {
                         System.out.println("Por favor responda apenas com números inteiros");
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
@@ -244,19 +252,21 @@ public class Caminhao extends Automovel {
 
                 valido = false;
                 String chassi = "";
-                String serial = "";
                 while (!valido) {
                     try {
                         System.out.println("Digite o serial do chassi deste caminhão: ");
-                        serial = teclado.nextLine();
-                        if (serial.length() == 17) {
-                            chassi = teclado.nextLine();
-                            valido = true;
-                        } else {
-                            System.out.println("Digite um serial válido, 17 letras no total.");
+                        chassi = teclado.nextLine();
+                        if (chassi.length() == 17) {
+                            chassi = chassi.toUpperCase();
+                            Caminhao id = cadastro.findCaminhao(chassi);
+                            if (id == null) {
+                                valido = true;
+                            } else {
+                                throw new IdentificadorDuplicado();
+                            }
                         }
-                    } catch (InputMismatchException e) {
-                        System.out.println("Por favor responda apenas com números inteiros");
+                    } catch (IdentificadorDuplicado e){
+                        System.out.println("Este Chassi já está cadastro e não pode ser cadastrado novamente");
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
                     }
@@ -281,21 +291,14 @@ public class Caminhao extends Automovel {
                         System.out.println("Digite o número de eixos deste caminhão: ");
                         n_eixos = Integer.parseInt(teclado.nextLine());
                         valido = true;
-                    } catch (InputMismatchException e) {
+                    } catch (NumberFormatException e) {
                         System.out.println("Por favor responda apenas com números inteiros");
                     } catch (Exception e) {
                         System.out.println("Erro Desconhecido, tente novamente");
                     }
                 }
 
-                Caminhoes cadastro;
-                try {
-                    cadastro = (Caminhoes) Serializador.ler("Caminhoes");
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-
-                Caminhao c = new Caminhao(marca, modelo, idade, kilomt, tipo, combustivel, qt_marcha, cor, chassi.toUpperCase(), tamanhotanque, valor, n_eixos);
+                Caminhao c = new Caminhao(marca, modelo, idade, kilomt, tipo, combustivel, qt_marcha, cor, chassi, tamanhotanque, valor, n_eixos);
 
                 cadastro.addCaminhao(c);
                 try {
@@ -357,7 +360,7 @@ public class Caminhao extends Automovel {
                             if (idade != 0) {
                                 edit.setIdade(idade);
                             }
-                        } catch (InputMismatchException e) {
+                        } catch (NumberFormatException e) {
                             System.out.println("Por favor responda apenas com números inteiros");
                         } catch (Exception e) {
                             System.out.println("Erro Desconhecido, tente novamente");
@@ -477,7 +480,7 @@ public class Caminhao extends Automovel {
                             if (n_eixos != 0) {
                                 edit.setEixos(n_eixos);
                             }
-                        } catch (InputMismatchException e) {
+                        } catch (NumberFormatException e) {
                             System.out.println("Por favor responda apenas com números inteiros");
                         } catch (Exception e) {
                             System.out.println("Erro Desconhecido, tente novamente");
@@ -493,7 +496,7 @@ public class Caminhao extends Automovel {
                             if (qt_marcha != 0) {
                                 edit.setQt_marcha(qt_marcha);
                             }
-                        } catch (InputMismatchException e) {
+                        } catch (NumberFormatException e) {
                             System.out.println("Por favor responda apenas com números inteiros");
                         } catch (Exception e) {
                             System.out.println("Erro Desconhecido, tente novamente");
@@ -509,8 +512,6 @@ public class Caminhao extends Automovel {
                             if (!cor.isEmpty()) {
                                 edit.setCor(cor);
                             }
-                        } catch (InputMismatchException e) {
-                            System.out.println("Por favor responda apenas com números inteiros");
                         } catch (Exception e) {
                             System.out.println("Erro Desconhecido, tente novamente");
                         }
@@ -525,7 +526,7 @@ public class Caminhao extends Automovel {
                             if (tamanhotanque != 0) {
                                 edit.setTamanhotanque(tamanhotanque);
                             }
-                        } catch (InputMismatchException e) {
+                        } catch (NumberFormatException e) {
                             System.out.println("Por favor responda apenas com números inteiros");
                         } catch (Exception e) {
                             System.out.println("Erro Desconhecido, tente novamente");
@@ -625,7 +626,7 @@ public class Caminhao extends Automovel {
                             System.out.println("Digite quantos anos deseja envelhecer este caminhão: ");
                             idade = Integer.parseInt(teclado.nextLine());
                             valido = true;
-                        } catch (InputMismatchException e) {
+                        } catch (NumberFormatException e) {
                             System.out.println("Por favor responda apenas com números inteiros");
                         } catch (Exception e) {
                             System.out.println("Erro Desconhecido, tente novamente");

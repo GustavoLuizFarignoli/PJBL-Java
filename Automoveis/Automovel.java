@@ -1,7 +1,8 @@
 package Automoveis;
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class Automovel extends Formulario.FormRefactored {
+public abstract class Automovel implements Serializable {
     private String marca;
     private String modelo;
     private int idade;
