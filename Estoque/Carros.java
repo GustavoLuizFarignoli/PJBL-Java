@@ -38,4 +38,7 @@ public class Carros implements Serializable{
         }
         System.out.println("===========================");
     }
+    public ArrayList<Carro> getCarros() {
+        return carros;
+    }
 }

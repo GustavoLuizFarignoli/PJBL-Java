@@ -530,7 +530,7 @@ public class Carro extends Automovel {
                 }
 
                 teclado.nextLine();
-                System.out.println("Qual é o chassi do carro qie deseja excluir: ");
+                System.out.println("Qual é o chassi do carro que deseja excluir: ");
                 chassi = teclado.nextLine();
 
                 Carro ex = excluir.findCarro(chassi.toUpperCase());
