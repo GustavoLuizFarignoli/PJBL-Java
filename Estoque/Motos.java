@@ -42,4 +42,7 @@ public class Motos implements Serializable{
         return motos;
     }
 
+    public void setMotos(ArrayList<Moto> motos) {
+        this.motos = motos;
+    }
 }

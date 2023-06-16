@@ -42,5 +42,8 @@ public class Caminhoes implements Serializable{
         System.out.println("===========================");
     }
 
+    public void setCaminhoes(ArrayList<Caminhao> caminhoes) {
+        this.caminhoes = caminhoes;
+    }
 }
 

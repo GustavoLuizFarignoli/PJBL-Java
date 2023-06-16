@@ -3,7 +3,7 @@ import Automoveis.Automovel;
 import Pessoas.Cliente;
 import Pessoas.Vendedor;
 import java.util.Date;
-public class RegistroAluguel {
+public class RegistroAluguel extends Registro {
     private int tempo;
     private double valor;
     private Automovel automovel;

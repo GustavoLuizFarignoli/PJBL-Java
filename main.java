@@ -2,6 +2,7 @@ import java.util.Scanner;
 import static Automoveis.Caminhao.menuCaminhao;
 import static Automoveis.Carro.menuCarro;
 import static Automoveis.Moto.menuMoto;
+import static Estoque.Estoque.menuEstoque;
 import static Pessoas.Cliente.menuCliente;
 import static Pessoas.Vendedor.menuVendedor;
 public class main {
@@ -35,8 +36,6 @@ public class main {
                     System.out.println("Por favor responda apenas o número da opção desejada");
                 }
             }
-
-
                 switch (op) {
                 case 1:
                     menuCarro(op);
@@ -54,7 +53,7 @@ public class main {
                     menuVendedor(op);
                     break;
                 case 6:
-                    // opções estoque
+                    menuEstoque(op);
                     break;
                 case 7:
                     System.out.println("Finalizando aplicação...");

@@ -41,4 +41,8 @@ public class Carros implements Serializable{
     public ArrayList<Carro> getCarros() {
         return carros;
     }
+
+    public void setCarros(ArrayList<Carro> carros) {
+        this.carros = carros;
+    }
 }

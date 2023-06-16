@@ -2,29 +2,25 @@ package Registros;
 import Automoveis.Automovel;
 import Pessoas.Cliente;
 import Pessoas.Vendedor;
-import java.util.Date;
 
-public class RegistroVenda{
+public class RegistroVenda extends Registro {
     private Vendedor vendedor;
-    private Date dataVenda;
     private Automovel automovel;
     private double valorVenda;
 
     private Cliente cliente;
-    public RegistroVenda(Automovel automovel, Vendedor vendedor, Cliente cliente, Date dataVenda, double valorVenda) {
-        automovel = automovel;
-        vendedor = vendedor;
-        cliente = cliente;
-        dataVenda = dataVenda;
-        valorVenda = valorVenda;
+    public RegistroVenda(Automovel automovel, Vendedor vendedor, Cliente cliente, double valorVenda) {
+        this.automovel = automovel;
+        this.vendedor = vendedor;
+        this.cliente = cliente;
+        this.valorVenda = valorVenda;
     }
 
     @Override
     public String toString() {
-        return "Vendedor:" + vendedor +
-                "\nData da Venda: " + dataVenda +
-                "\nAutomovel: " + automovel +
+        return "Vendedor:" + vendedor.getNome() +
+                "\nAutomovel: " + automovel.getModelo() +
                 "\nValor: " + valorVenda +
-                "\n Comprador: " + cliente;
+                "\nComprador: " + cliente.getNome();
     }
 }
