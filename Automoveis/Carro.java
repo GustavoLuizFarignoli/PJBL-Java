@@ -318,7 +318,7 @@ public class Carro extends Automovel {
                     System.out.println(edit);
                     System.out.println("===========================");
 
-                    System.out.println("Digite a nova marca (ou deixe  vazio para manter): ");
+                    System.out.println("Digite a nova marca (ou deixa vazio para manter): ");
                     marca = teclado.nextLine();
                     if (!marca.isEmpty()){
                         edit.setMarca(marca);
@@ -391,21 +391,52 @@ public class Carro extends Automovel {
                     valido = false;
                     while (!valido){
                         try {
-                            System.out.println("Digite o tipo do carro(ou deixa vazio para manter): ");
-                            tipo = teclado.nextLine();
-                            if (!tipo.isEmpty()){
-                                edit.setTipo(tipo);
-                            }
-                            valido = true;
-                        }catch (Exception e){
-                            System.out.println("Erro desconhecido, tenta novamente");
+                            System.out.println("******Menu Tipo******\n" +
+                                    "1. Harchs\n" +
+                                    "2. Sedans\n" +
+                                    "3. SUVs\n" +
+                                    "4. Picapes\n" +
+                                    "5. Utilitários\n" +
+                                    "6. Manter mesmo tipo");
+                            System.out.println("Digite o tipo desejado: ");
+                            op = Integer.parseInt(teclado.nextLine());
+                            if(op != 0){
+                                switch (op){
+                                    case 1->{
+                                        edit.setTipo("Harchs");
+                                        valido = true;
+                                    }
+                                    case 2 ->{
+                                        edit.setTipo("Sedans");
+                                        valido = true;
+                                    }
+                                    case 3 -> {
+                                        edit.setTipo("SUVs");
+                                        valido = true;
+                                    }
+                                    case 4 ->{
+                                        edit.setTipo("Picapes");
+                                        valido = true;
+                                    }
+                                    case 5 -> {
+                                        edit.setTipo("Utilitários");
+                                        valido = true;
+                                    }
+                                    case 6 -> {
+                                        valido = true;
+                                    }
+                                    default -> System.out.println("Digite um valor válido");
+                                }
+                                }
+                            }catch (Exception e){
+                                 System.out.println("Erro desconhecido, tente novamente");
                         }
-                    }
+                        }
 
                     valido = false;
                     while(!valido){
                         String marchas;
-                        System.out.println("Digite a quantidade de marcha(ou digite 0 para manter): ");
+                        System.out.println("Digite a quantidade de marcha(ou deixa vazio para manter): ");
                         marchas = teclado.nextLine();
                         if (!marchas.isEmpty()){
                             try {
@@ -438,11 +469,10 @@ public class Carro extends Automovel {
                             System.out.println("Erro desconhecido, tenta novamente");
                         }
                     }
-
                     valido = false;
                     while(!valido){
                         String preco;
-                        System.out.println("Digite o valor do carro(ou deixe em branco para manter): ");
+                        System.out.println("Digite o valor do carro(ou deixa em vazio para manter): ");
                         preco = teclado.nextLine();
                         if (!preco.isEmpty()){
                             try {
@@ -457,10 +487,11 @@ public class Carro extends Automovel {
                         }
                     }
 
+
                     valido = false;
                     while(!valido){
                         String potencia;
-                        System.out.println("Digite o horse power do carro(ou deixe em branco para manter): ");
+                        System.out.println("Digite o horse power do carro(ou deixa vazio para manter): ");
                         potencia = teclado.nextLine();
                         if (!potencia.isEmpty()){
                             try {
@@ -478,7 +509,7 @@ public class Carro extends Automovel {
                     valido = false;
                     while(!valido){
                         String tanque;
-                        System.out.println("Digite o tamanha do tanque do carro(ou deixe em branco para manter): ");
+                        System.out.println("Digite o tamanha do tanque do carro(ou deixa vazio para manter): ");
                         tanque = teclado.nextLine();
                         if (!tanque.isEmpty()){
                             try {
@@ -496,7 +527,7 @@ public class Carro extends Automovel {
                     valido = false;
                     while(!valido){
                         String portas;
-                        System.out.println("Digite o número de portas do carro(ou deixe em branco para manter): ");
+                        System.out.println("Digite o número de portas do carro(ou deixa vazio para manter): ");
                         portas = teclado.nextLine();
                         if (!portas.isEmpty()){
                             try {
@@ -595,7 +626,7 @@ public class Carro extends Automovel {
 
                 Carro s = simular.findCarro(chassi.toUpperCase());
                 if (s==null){
-                    System.out.println("Não foi possivel encontrar um carro comesse chassi");
+                    System.out.println("Não foi possivel encontrar um carro com esse chassi");
                 }else {
                     valido = false;
                     idade = 0;

@@ -15,7 +15,7 @@ public class Moto extends Automovel{
 
     private int cilindradas;
 
-    public Moto(String marca, String modelo, int idade, long kilomt, String tipo, String combustivel, int qt_marcha, String cor, String chassi, int tamanhotanque, double valor, int  cilindradas) throws HeadlessException {
+    public Moto(String marca, String modelo, int idade, double kilomt, String tipo, String combustivel, int qt_marcha, String cor, String chassi, int tamanhotanque, double valor, int  cilindradas) throws HeadlessException {
         super(marca, modelo, idade, kilomt, tipo, combustivel, qt_marcha, cor, chassi, tamanhotanque, valor);
         this.cilindradas = cilindradas;
     }
@@ -31,7 +31,7 @@ public class Moto extends Automovel{
             Taxa = 0.10;
         }
         valor -= valor * Taxa;
-        System.out.println("O valor do caminhão seria R$" + valor);
+        System.out.println("O valor do moto seria R$" + valor);
     }
     public static void menuMoto(int op) {
         Scanner teclado = new Scanner(System.in);
@@ -62,6 +62,38 @@ public class Moto extends Automovel{
                 break;
             case 6:
                 // metodo de depreciar
+                Motos simular;
+                try {
+                    simular = (Motos) Serializador.ler("Motos");
+                }catch (IOException | ClassNotFoundException e){
+                    throw new RuntimeException(e);
+                }
+
+                teclado.nextLine();
+                System.out.println("Qual chassi da moto que deseja simular: ");
+                String chassi;
+                chassi = teclado.nextLine();
+
+                Moto s = simular.findMoto(chassi.toUpperCase());
+                if (s==null){
+                    System.out.println("Não foi possivel encotrar a moto com esse chassi");
+                }else {
+                    valido = false;
+                    idade = 0;
+                    while (!valido){
+                        try {
+                            System.out.println("Digite quantos anos deseja envelhecer esta moto: ");
+                            idade = Integer.parseInt(teclado.nextLine());
+                            valido = true;
+                        }catch (NumberFormatException e){
+                            System.out.println("Por favor reponda apenas com números inteiros");
+                        }catch (Exception e){
+                            System.out.println("Erro Desconhecido, tente novamente");
+                        }
+                    }
+                    s.depreciar(s.getIdade()+idade,s.getValor());
+                    }
+                }
                 break;
             case 5:
                 // Metodo de Ver todas as motos
@@ -85,7 +117,6 @@ public class Moto extends Automovel{
                 }
 
                 teclado.nextLine();
-                String chassi;
                 System.out.println("Qual o Serial da Moto que deseja excluir ?");
                 chassi = teclado.nextLine().toUpperCase();
 
@@ -163,11 +194,12 @@ public class Moto extends Automovel{
                 }
 
                 valido = false;
-                long kilomt = 0;
+                double kilomt = 0;
+
                 while (!valido) {
                     try {
                         System.out.println("Digite a quilometragem desta moto: ");
-                        kilomt = Long.parseLong(teclado.nextLine());
+                        kilomt = Double.parseDouble(teclado.nextLine());
                         valido = true;
                     }catch (NumberFormatException e) {
                         System.out.println("Por favor responda apenas com números inteiros");
@@ -376,7 +408,7 @@ public class Moto extends Automovel{
                     System.out.println(edit);
                     System.out.println("===========================");
 
-                    System.out.println("Digite a nova marca (ou deixe em branco para manter o valor atual):");
+                    System.out.println("Digite a nova marca (ou deixa vazio para manter): ");
                     marca = teclado.nextLine();
                     if (!marca.isEmpty()) {
                         edit.setMarca(marca);
@@ -385,7 +417,7 @@ public class Moto extends Automovel{
                     valido = false;
                     while (!valido) {
                         try {
-                            System.out.println("Digite o novo modelo da moto (ou deixe em branco para manter o valor atual): ");
+                            System.out.println("Digite o novo modelo da moto (ou deixa vazio para manter): ");
                             modelo = teclado.nextLine();
                             if (!modelo.isEmpty()) {
                                 edit.setModelo(modelo);
@@ -400,49 +432,51 @@ public class Moto extends Automovel{
 
 
                     valido = false;
-                    while (!valido) {
-                        try {
-                            System.out.println("Digite a idade desta moto (ou digite 0 para manter valor atual): ");
-                            idade = Integer.parseInt(teclado.nextLine());
-                            valido = true;
-                            if (idade != 0) {
+                    while (!valido){
+                        String age;
+                        System.out.println("Digite a idade da moto (ou deixa vazio para manter):  ");
+                        age = teclado.nextLine();
+                        if (!age.isEmpty()){
+                            try {
+                                idade = Integer.parseInt(age);
                                 edit.setIdade(idade);
+                                valido = true;
+                            }catch (NumberFormatException e){
+                                System.out.println("Por favor responda apenas com números inteiros");
                             }
-                        } catch (NumberFormatException e) {
-                            System.out.println("Por favor responda apenas com números inteiros");
-                        } catch (Exception e) {
-                            System.out.println("Erro Desconhecido, tente novamente");
-                        }
-                    }
-
-                    valido = false;
-                    while (!valido) {
-                        try {
-                            System.out.println("Digite a quilometragem desta moto (ou digite 0 para manter valor atual): ");
-                            kilomt = Long.parseLong(teclado.nextLine());
+                        }else {
                             valido = true;
-                            if (kilomt != 0) {
-                                edit.setKilomt(kilomt);
-                            }
-                        } catch (Exception e) {
-                            System.out.println("Erro desconhecido, tente novamente");
                         }
                     }
 
                     valido = false;
-                    while (!valido) {
-                        try {
-                            System.out.println("Para qual dos seguintes tipo: Elétrico; Combustão ou Híbrido, você deseja alterar sua moto (Ou deixe em branco para manter valor atual): ");
-                            combustivel = teclado.nextLine();
-                            if (!combustivel.isEmpty()) {
-                                if (combustivel.equalsIgnoreCase("elétrico") || combustivel.equalsIgnoreCase("combustão") || combustivel.equalsIgnoreCase("híbrido")) {
-                                    edit.setCombustivel(combustivel);
-                                    valido = true;
-                                }
-                            } else {
-                                System.out.print("Digite um dos seguintes tipo: Elétrico; Combustão ou Híbrido");
+                    while (!valido){
+                        String km;
+                        System.out.println("Digite o quilometragem do moto(ou deixa vazio para manter): ");
+                        km = teclado.nextLine();
+                        if (!km.isEmpty()){
+                            try {
+                                kilomt = Double.parseDouble(km);
+                                edit.setKilomt(kilomt);
+                                valido = true;
+                            }catch (NumberFormatException e){
+                                System.out.println("Por favor responda apenas com números inteiros");
                             }
-                        } catch (Exception e) {
+                        }else {
+                            valido = true;
+                        }
+                    }
+
+                    valido = false;
+                    while (!valido){
+                        try {
+                            System.out.println("Digite o combustivel da moto(ou deixa vazio para manter): ");
+                            combustivel = teclado.nextLine();
+                            if(!combustivel.isEmpty()){
+                                edit.setCombustivel(combustivel);
+                            }
+                            valido = true;
+                        }catch (Exception e){
                             System.out.println("Erro desconhecido, tente novamente");
                         }
                     }
@@ -461,6 +495,7 @@ public class Moto extends Automovel{
                                     7. Touring
                                     8. Trail
                                     9. Off-Road
+                                    10. Manter mesmo tipo
                                     """);
                             System.out.print("Digite o tipo desejado: ");
                             op = Integer.parseInt(teclado.nextLine());
@@ -502,6 +537,9 @@ public class Moto extends Automovel{
                                         edit.setTipo("Off-Road");
                                         valido = true;
                                     }
+                                    case 10 -> {
+                                        valido = true;
+                                    }
                                     default -> System.out.println("Digite um valor válido");
                                 }
                             }
@@ -511,80 +549,93 @@ public class Moto extends Automovel{
                     }
 
                     valido = false;
-                    while (!valido) {
-                        try {
-                            System.out.println("Digite o valor desta moto (ou digite 0 para manter valor atual): ");
-                            valor = Double.parseDouble(teclado.nextLine());
-                            valido = true;
-                            if (valor != 0) {
+                    while(!valido){
+                        String preco;
+                        System.out.println("Digite o valor da moto(ou deixa em vazio para manter): ");
+                        preco = teclado.nextLine();
+                        if (!preco.isEmpty()){
+                            try {
+                                valor = Double.parseDouble(preco);
                                 edit.setValor(valor);
+                                valido = true;
+                            }catch (Exception e){
+                                System.out.println("Digite apenas números inteiros");
                             }
-                        } catch (Exception e) {
-                            System.out.println("Erro desconhecido, tente novamente");
+                        } else {
+                            valido = true;
                         }
                     }
 
                     valido = false;
                     while (!valido) {
-                        try {
-                            System.out.println("Digite a cilindrada desta moto (ou digite 0 para manter valor atual): ");
-                            cilindradas = Integer.parseInt(teclado.nextLine());
+                        String cili;
+                        System.out.println("Digite a cilindrada desta moto (ou deixa vazio para manter): ");
+                        cili = teclado.nextLine();
+                        if (!cili.isEmpty()) {
+                                try {
+                                    cilindradas = Integer.parseInt(cili);
+                                    edit.setCilindradas(cilindradas);
+                                    valido = true;
+                                }catch (Exception e){
+                                    System.out.println("Digite apenas números inteiros");
+                                }
+                        } else {
                             valido = true;
-                            if (cilindradas != 0) {
-                                edit.setCilindradas(cilindradas);
-                            }
-                        } catch (NumberFormatException e) {
-                            System.out.println("Por favor responda apenas com números inteiros");
-                        } catch (Exception e) {
-                            System.out.println("Erro Desconhecido, tente novamente");
                         }
-                    }
+                            }
 
                     valido = false;
-                    while (!valido) {
-                        try {
-                            System.out.println("Digite o número de marchas desta moto (ou digite 0 para manter valor atual): ");
-                            qt_marcha = Integer.parseInt(teclado.nextLine());
-                            valido = true;
-                            if (qt_marcha != 0) {
+                    while(!valido){
+                        String marchas;
+                        System.out.println("Digite a quantidade de marcha(ou deixa vazio para manter): ");
+                        marchas = teclado.nextLine();
+                        if (!marchas.isEmpty()){
+                            try {
+                                qt_marcha = Integer.parseInt(marchas);
                                 edit.setQt_marcha(qt_marcha);
+                                valido = true;
+                            }catch (Exception e){
+                                System.out.println("Digite apenas números inteiros");
                             }
-                        } catch (NumberFormatException e) {
-                            System.out.println("Por favor responda apenas com números inteiros");
-                        } catch (Exception e) {
-                            System.out.println("Erro Desconhecido, tente novamente");
+                        } else {
+                            valido = true;
                         }
                     }
 
                     valido = false;
-                    while (!valido) {
+                    while (!valido){
                         try {
-                            System.out.println("Digite a cor desta moto (ou deixe em branco para manter valor atual): ");
+                            System.out.println("Digite a cor da moto(ou deixa vazio para manter): ");
                             cor = teclado.nextLine();
-                            valido = true;
-                            if (!cor.isEmpty()) {
+                            if (cor.matches(".*\\d+.*")){
+                                System.out.println("Não digite números");
+                            } else if (!cor.isEmpty()){
+                                cor = cor.substring(0,1).toUpperCase() + cor.substring(1).toLowerCase();
                                 edit.setCor(cor);
+                                valido = true;
+                            } else {
+                                valido = true;
                             }
-                        } catch (InputMismatchException e) {
-                            System.out.println("Por favor responda apenas com números inteiros");
-                        } catch (Exception e) {
-                            System.out.println("Erro Desconhecido, tente novamente");
+                        }catch (Exception e){
+                            System.out.println("Erro desconhecido, tenta novamente");
                         }
                     }
 
                     valido = false;
-                    while (!valido) {
-                        try {
-                            System.out.println("Digite o tamanho do tanque desta moto (ou digite 0 para manter valor atual): ");
-                            tamanhotanque = Integer.parseInt(teclado.nextLine());
-                            valido = true;
-                            if (tamanhotanque != 0) {
+                    while(!valido){
+                        String tanque;
+                        System.out.println("Digite o tamanha do tanque da moto(ou deixa vazio para manter): ");
+                        tanque = teclado.nextLine();
+                        if (!tanque.isEmpty()){
+                            try {
+                                tamanhotanque = Integer.parseInt(tanque);
                                 edit.setTamanhotanque(tamanhotanque);
+                                valido = true;
+                            }catch (Exception e){
+                                System.out.println("Digite apenas números inteiros");
                             }
-                        } catch (NumberFormatException e) {
-                            System.out.println("Por favor responda apenas com números inteiros");
-                        } catch (Exception e) {
-                            System.out.println("Erro Desconhecido, tente novamente");
+                        } else {
+                            valido = true;
                         }
                     }
 
