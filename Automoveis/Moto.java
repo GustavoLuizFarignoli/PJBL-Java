@@ -333,19 +333,22 @@ public class Moto extends Automovel{
                 }
             }
 
-            valido = false;
             String cor = "";
-            while (!valido) {
+            valido = false;
+            while (!valido){
                 try {
-                    System.out.println("Digite a cor desta moto: ");
+                    System.out.println("Digite a cor da moto: ");
                     cor = teclado.nextLine();
-                    valido = true;
-                } catch (InputMismatchException e) {
-                    System.out.println("Por favor responda apenas com números inteiros");
-                } catch (Exception e) {
-                    System.out.println("Erro Desconhecido, tente novamente");
+                    if (cor.matches(".*\\d+.*")){
+                        System.out.println("Não digite números");
+                    } else if (!cor.isEmpty()){
+                        valido = true;
+                    }
+                }catch (Exception e){
+                    System.out.println("Erro desconhecido, tenta novamente");
                 }
             }
+            cor = cor.substring(0,1).toUpperCase() + cor.substring(1).toLowerCase();
 
             valido = false;
             int tamanhotanque = 0;

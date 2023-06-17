@@ -197,7 +197,7 @@ public class Carro extends Automovel {
                 valido = false;
                 while (!valido){
                     try {
-                        System.out.println("Digite a cor do carro(ou deixa vazio para manter): ");
+                        System.out.println("Digite a cor do carro: ");
                         cor = teclado.nextLine();
                         if (cor.matches(".*\\d+.*")){
                             System.out.println("Não digite números");
