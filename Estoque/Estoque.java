@@ -119,6 +119,7 @@ public class Estoque implements Serializable {
                 System.out.println("Não foi possivel encontrar nenhum vendedor com este cpf");
             } else {
                 vendedor.setComissao(carro.getValor());
+                vendedor.setQtvendas(vendedor.getQtvendas()+1);
                 try {
                     Serializador.gravar("Funcionarios",funcionario);
                 } catch (IOException e) {
@@ -207,6 +208,7 @@ public class Estoque implements Serializable {
                 System.out.println("Não foi possivel encontrar nenhum vendedor com este cpf");
             } else {
                 vendedor.setComissao(caminhao.getValor());
+                vendedor.setQtvendas(vendedor.getQtvendas()+1);
                 try {
                     Serializador.gravar("Funcionarios",funcionario);
                 } catch (IOException e) {
@@ -295,6 +297,7 @@ public class Estoque implements Serializable {
                 System.out.println("Não foi possivel encontrar nenhum vendedor com este cpf");
             } else {
                 vendedor.setComissao(moto.getValor());
+                vendedor.setQtvendas(vendedor.getQtvendas()+1);
                 try {
                     Serializador.gravar("Funcionarios",funcionario);
                 } catch (IOException e) {
