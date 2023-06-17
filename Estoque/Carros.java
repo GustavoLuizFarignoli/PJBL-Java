@@ -1,7 +1,6 @@
 package Estoque;
 
 import Automoveis.Carro;
-import Pessoas.Cliente;
 
 import java.io.Serializable;
 import java.util.ArrayList;

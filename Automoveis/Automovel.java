@@ -14,6 +14,7 @@ public abstract class Automovel implements Serializable {
     private String chassi;
     private int tamanhotanque;
     private double valor;
+    private boolean alugado;
 
     public Automovel(String marca, String modelo, int idade, double kilomt, String tipo, String combustivel, int qt_marcha, String cor, String chassi, int tamanhotanque, double valor) throws HeadlessException {
         this.marca = marca;
@@ -117,6 +118,14 @@ public abstract class Automovel implements Serializable {
 
     public void setTamanhotanque(int tamanhotanque) {
         this.tamanhotanque = tamanhotanque;
+    }
+
+    public boolean isAlugado() {
+        return alugado;
+    }
+
+    public void setAlugado(boolean alugado) {
+        this.alugado = alugado;
     }
 
     public void vender(Automovel automovel){

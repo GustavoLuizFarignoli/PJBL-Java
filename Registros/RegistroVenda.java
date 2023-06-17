@@ -5,22 +5,19 @@ import Pessoas.Vendedor;
 
 public class RegistroVenda extends Registro {
     private Vendedor vendedor;
-    private Automovel automovel;
     private double valorVenda;
 
-    private Cliente cliente;
-    public RegistroVenda(Automovel automovel, Vendedor vendedor, Cliente cliente, double valorVenda) {
-        this.automovel = automovel;
+    public RegistroVenda(Automovel automovel, double valorVenda, Cliente cliente, Vendedor vendedor) {
+        super(automovel, cliente);
         this.vendedor = vendedor;
-        this.cliente = cliente;
         this.valorVenda = valorVenda;
     }
 
     @Override
     public String toString() {
-        return "Vendedor:" + vendedor.getNome() +
-                "\nAutomovel: " + automovel.getModelo() +
-                "\nValor: " + valorVenda +
-                "\nComprador: " + cliente.getNome();
+        return "Vendedor: " + this.vendedor.getNome() +
+                "\nAutomovel: " + getAutomovel().getModelo() +
+                "\nValor: " + this.valorVenda +
+                "\nComprador: " + getCliente().getNome();
     }
 }
