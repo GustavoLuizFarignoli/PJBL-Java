@@ -447,9 +447,11 @@ public class Vendedor extends Pessoa implements Serializable {
                 // Opção de debug
                 Funcionario cadastro1 = new Funcionario();
 
-                Vendedor v1 = new Vendedor("Felipe","168.301.107-42",25,"9911-9911","85806-768",0,0,0);
+                Vendedor v1 = new Vendedor("Luiz Silva","070.680.938-68",25,"9911-9911","85806-768",0,0,0);
+                Vendedor v2 = new Vendedor("Manoel Gomes","421.527.441-95",62,"99376-4250","58654-358",0,0,0);
 
                 cadastro1.addFuncionario(v1);
+                cadastro1.addFuncionario(v2);
                 try {
                     Serializador.gravar("Funcionarios",cadastro1);
                 } catch (IOException e) {

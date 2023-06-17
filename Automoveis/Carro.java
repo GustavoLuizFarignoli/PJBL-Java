@@ -649,8 +649,12 @@ public class Carro extends Automovel {
                 break;
             case 8://remover na hora da apresentação
                 Carros carros1 = new Carros();
-                Carro c1 = new Carro("toyota","corolla", 0, 123,"Sedan","elétrico", 4,"cinza","4AN15ASE2Z8K44325",45,110000,4,125);
+
+                Carro c1 = new Carro("Toyota","Corolla", 0, 1052,"Sedan","Elétrico", 4,"Cinza","4AN15ASE2Z8K44325",45,30000,5,67);
+                Carro c2 = new Carro("Fiat","Uno", 11, 120100,"Sedan","Combustão", 5,"Vermelho Escarlate","840N15NDDWJXA2726",60,40000,5,73);
+
                 carros1.addCarro(c1);
+                carros1.addCarro(c2);
 
                 try {
                     Serializador.gravar("Carros", carros1);

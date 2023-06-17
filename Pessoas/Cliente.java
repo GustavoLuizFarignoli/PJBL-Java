@@ -306,9 +306,11 @@ public class Cliente extends Pessoa implements Serializable {
                 //Opção de Debug, deve ser removida posteriormente
 
                 Clientes cadastro1 = new Clientes();
-                Cliente c1 = new Cliente("Guga","089.927.489-73",18,"99119-2406","80110-030");
+                Cliente c1 = new Cliente("Gustavo","089.927.489-73",18,"99119-2406","80110-030");
+                Cliente c2 = new Cliente("João Gabriel Estresser Trigo","099.641.579-32",19,"9906-5898","77448-522");
 
                 cadastro1.addCliente(c1);
+                cadastro1.addCliente(c2);
                 try {
                     Serializador.gravar("Clientes",cadastro1);
                 } catch (IOException e) {

@@ -50,10 +50,12 @@ public class Moto extends Automovel{
         op = teclado.nextInt();
         switch (op) {
             case 8:
-                Moto c1 = new Moto("marca", "modelo", 1, 2, "Moto", "Elétrica", 1, "cor", "3CAA83MAX18XK5481", 32, 23, 123);
+                Moto c1 = new Moto("Triumph", "Tiger", 3, 48000, "Esportiva", "Combustão", 6, "Verde Oliva", "3CAA83MAX18XK5481", 20, 90000,900);
+                Moto c2 = new Moto("Kawasaki", "Z1000", 2, 10000, "Esportiva", "Combustão", 5, "Preta e Verde", "43756AC42F8PL6304", 15, 74800, 500);
 
                 Motos m1 = new Motos();
                 m1.addMoto(c1);
+                m1.addMoto(c2);
                 try {
                     Serializador.gravar("Motos", m1);
                 } catch (IOException e) {

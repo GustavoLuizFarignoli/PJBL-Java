@@ -664,9 +664,11 @@ public class Caminhao extends Automovel {
                 //debug
                 Caminhoes cadastro1 = new Caminhoes();
 
-                Caminhao c1 = new Caminhao("toyota", "Caminhão", 3, 3033.3, "Truck", "Combustão", 3, "cinza", "9BWHE21JX24060831", 60, 30000, 4);
+                Caminhao c1 = new Caminhao("Toyota", "Caminhão", 12, 3033.3, "Toco", "Elétrico", 3, "Verde", "9BWHE21JX24060831", 60, 30000, 4);
+                Caminhao c2 = new Caminhao("Volvo ", "Volvo FH", 0, 41658.79, "Truck", "Combustão", 5, "cinza", "8MWA4AXYAA17K9867", 70, 472000.50, 6);
 
                 cadastro1.addCaminhao(c1);
+                cadastro1.addCaminhao(c2);
                 try {
                     Serializador.gravar("Caminhoes", cadastro1);
                 } catch (IOException e) {
