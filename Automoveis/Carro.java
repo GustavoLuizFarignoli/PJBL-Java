@@ -55,14 +55,15 @@ public class Carro extends Automovel {
     }
     public static void menuCarro(int op){
         Scanner teclado = new Scanner(System.in);
-        System.out.println("******Menu Carro******\n" +
-                "1. Cadastra carro \n" +
-                "2. Editar carro\n" +
-                "3. Excluir carro\n" +
-                "4. Visualizar carro\n" +
-                "5. Ver todos os carros\n" +
-                "6. Calcular a desvalorização\n" +
-                "7. Finalizar\n");
+        System.out.println("""
+                ******Menu Carro******
+                1. Cadastra carro
+                2. Editar carro
+                3. Excluir carro
+                4. Visualizar carro
+                5. Ver todos os carros
+                6. Calcular a desvalorização
+                7. Finalizar""");
         System.out.print("Digite o comando desejado: ");
         op = teclado.nextInt();
         switch (op){
@@ -143,12 +144,14 @@ public class Carro extends Automovel {
                 String tipo = "";
                 while (!valido) {
                     try {
-                        System.out.println("******Menu Tipo******\n" +
-                                "1. Harchs\n" +
-                                "2. Sedans\n" +
-                                "3. SUVs\n" +
-                                "4. Picapes\n" +
-                                "5. Utilitários\n");
+                        System.out.println("""
+                                ******Menu Tipo******
+                                1. Harchs
+                                2. Sedans
+                                3. SUVs
+                                4. Picapes
+                                5. Utilitários""");
+
                         System.out.println("Digite o tipo desejado: ");
                         op = Integer.parseInt(teclado.nextLine());
                         switch (op) {
@@ -391,13 +394,14 @@ public class Carro extends Automovel {
                     valido = false;
                     while (!valido){
                         try {
-                            System.out.println("******Menu Tipo******\n" +
-                                    "1. Harchs\n" +
-                                    "2. Sedans\n" +
-                                    "3. SUVs\n" +
-                                    "4. Picapes\n" +
-                                    "5. Utilitários\n" +
-                                    "6. Manter mesmo tipo");
+                            System.out.println("""
+                                    ******Menu Tipo******
+                                    1. Harchs
+                                    2. Sedans
+                                    3. SUVs
+                                    4. Picapes
+                                    5. Utilitários
+                                    6. Manter mesmo tipo""");
                             System.out.println("Digite o tipo desejado: ");
                             op = Integer.parseInt(teclado.nextLine());
                             if(op != 0){

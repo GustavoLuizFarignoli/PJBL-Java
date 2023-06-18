@@ -7,25 +7,29 @@ import static Pessoas.Cliente.menuCliente;
 import static Pessoas.Vendedor.menuVendedor;
 public class main {
     public static void main(String[] args) {
-        System.out.println("******PJBL-POO******\n" +
-                "Concessionária de Automóveis\n" +
-                "Feito por: Gabriel Molec\n" +
-                "           Gabriel Vink\n" +
-                "           Gustavo Luiz\n" +
-                "           João Gabriel Trigo\n" +
-                "           Vittorio Caprioli");
+        System.out.println("""
+                ******PJBL-POO******
+                Concessionária de Automóveis
+                Feito por: Gabriel Molec
+                           Gabriel Vink
+                           Gustavo Luiz
+                           João Trigo
+                           Vittorio Caprioli
+                           """);
 
         Scanner teclado = new Scanner(System.in);
         int op = 0;
         while (op != 7) {
-            System.out.println("******MENU******\n" +
-                    "1. Menu Carro \n" +
-                    "2. Menu Moto\n" +
-                    "3. Menu Caminhão\n" +
-                    "4. Menu Cliente\n" +
-                    "5. Menu Vendedor\n" +
-                    "6. Menu Estoque\n" +
-                    "7. Finalizar\n");
+            System.out.println("""
+                    ******MENU******
+                    1. Menu Carro
+                    2. Menu Moto
+                    3. Menu Caminhão
+                    4. Menu Cliente
+                    5. Menu Vendedor
+                    6. Menu Estoque
+                    7. Finalizar
+                    """);
             boolean valido = false;
             while (!valido) {
                 try {

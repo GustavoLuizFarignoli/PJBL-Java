@@ -707,22 +707,23 @@ public class Estoque implements Serializable {
 
     public static void menuEstoque(int op){
         Scanner teclado = new Scanner(System.in);
-        System.out.println("******Menu Cliente******\n" +
-                "1. Registrar Venda\n" +
-                "2. Visualizar Vendas\n" +
-                "3. Registrar Aluguel\n" +
-                "4. Finalizar Aluguel\n" +
-                "5. Visualizar Alugueis\n" +
-                "6. Visualizar Estoque\n" +
-                "7. Finalizar\n");
+        System.out.println("""
+                ******Menu Cliente******
+                1. Registrar Venda
+                2. Visualizar Vendas
+                3. Registrar Aluguel
+                4. Finalizar Aluguel
+                5. Visualizar Alugueis
+                6. Visualizar Estoque
+                7. Finalizar""");
         System.out.print("Digite o comando desejado: ");
         op = teclado.nextInt();
         switch (op) {
             case 1:
-                System.out.println(
-                        "1. Carro\n" +
-                        "2. Caminhão\n" +
-                        "3. Moto\n");
+                System.out.println("""
+                        1. Carro
+                        2. Caminhão
+                        3. Moto""");
                 boolean valido = false;
                 int opvenda = 0;
                 while (!valido) {
@@ -765,11 +766,11 @@ public class Estoque implements Serializable {
                 registros.viewRegistroVenda();
                 break;
             case 3:
-                //registrar alugel
-                System.out.println(
-                        "1. Carro\n" +
-                        "2. Caminhão\n" +
-                        "3. Moto\n");
+                //registrar aluguel
+                System.out.println("""
+                        1. Carro
+                        2. Caminhão
+                        3. Moto""");
                 valido = false;
                 int opalugel = 0;
                 while (!valido) {
@@ -803,10 +804,10 @@ public class Estoque implements Serializable {
                 break;
             case 4:
                 //Finalizar aluguel
-                System.out.println(
-                        "1. Carro\n" +
-                        "2. Caminhão\n" +
-                        "3. Moto\n");
+                System.out.println("""
+                        1. Carro
+                        2. Caminhão
+                        3. Moto""");
                 valido = false;
                 int opfinal = 0;
                 while (!valido) {

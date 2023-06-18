@@ -158,15 +158,16 @@ public class Caminhao extends Automovel {
                 tipo = "";
                 while (!valido) {
                     try {
-                        System.out.println("******Menu Tipo******\n" +
-                                "1. 3/4 ou VUC\n" +
-                                "2. Toco\n" +
-                                "3. Truck\n" +
-                                "4. Cavalo Mecânico Simples\n" +
-                                "5. Cavalo Mecânico Trucado\n" +
-                                "6. Conjunto Carreta\n" +
-                                "7. Bitrem\n" +
-                                "8. Rodotrem\n");
+                        System.out.println("""
+                                ******Menu Tipo******
+                                1. 3/4 ou VUC
+                                2. Toco
+                                3. Truck
+                                4. Cavalo Mecânico Simples
+                                5. Cavalo Mecânico Trucado
+                                6. Conjunto Carreta
+                                7. Bitrem
+                                8. Rodotrem""");
                         System.out.print("Digite o tipo desejado: ");
                         op = Integer.parseInt(teclado.nextLine());
                         switch (op) {
